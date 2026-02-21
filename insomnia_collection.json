@@ -1,0 +1,199 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-02-21T00:00:00.000Z",
+  "__export_source": "insomnia.desktop",
+  "resources": [
+    {
+      "_id": "wrk_loja_maquiagem",
+      "parentId": null,
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Loja de Maquiagem",
+      "description": "API REST para Loja de Maquiagem",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_producao",
+      "parentId": "wrk_loja_maquiagem",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Production",
+      "data": {
+        "base_url": "http://localhost:8080/api"
+      },
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_produtos",
+      "parentId": "wrk_loja_maquiagem",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Produtos",
+      "description": "Operações com Produtos",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_criar_produto",
+      "parentId": "fld_produtos",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Criar Produto",
+      "method": "POST",
+      "url": "{{ base_url }}/produtos",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"nome\":\"Batom Vermelho Clássico\",\"descricao\":\"Batom com pigmentação intensa e acabamento matte\",\"preco\":45.90,\"estoque\":50,\"categoria\":\"Lábios\",\"marca\":\"Mac\"}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_listar_produtos",
+      "parentId": "fld_produtos",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Listar Todos os Produtos",
+      "method": "GET",
+      "url": "{{ base_url }}/produtos",
+      "_type": "request"
+    },
+    {
+      "_id": "req_buscar_produto",
+      "parentId": "fld_produtos",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Buscar Produto por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/produtos/1",
+      "_type": "request"
+    },
+    {
+      "_id": "req_buscar_categoria",
+      "parentId": "fld_produtos",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Buscar por Categoria",
+      "method": "GET",
+      "url": "{{ base_url }}/produtos/categoria/Lábios",
+      "_type": "request"
+    },
+    {
+      "_id": "req_buscar_marca",
+      "parentId": "fld_produtos",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Buscar por Marca",
+      "method": "GET",
+      "url": "{{ base_url }}/produtos/marca/Mac",
+      "_type": "request"
+    },
+    {
+      "_id": "req_atualizar_produto",
+      "parentId": "fld_produtos",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Atualizar Produto",
+      "method": "PUT",
+      "url": "{{ base_url }}/produtos/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"nome\":\"Batom Vermelho Premium\",\"preco\":55.90,\"estoque\":45}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_deletar_produto",
+      "parentId": "fld_produtos",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Deletar Produto",
+      "method": "DELETE",
+      "url": "{{ base_url }}/produtos/1",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_compras",
+      "parentId": "wrk_loja_maquiagem",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Compras",
+      "description": "Operações com Compras",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_realizar_compra",
+      "parentId": "fld_compras",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Realizar Compra",
+      "method": "POST",
+      "url": "{{ base_url }}/compras",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"cliente\":\"João Silva\",\"email\":\"joao@email.com\",\"telefone\":\"11999999999\",\"produtoId\":1,\"quantidade\":2}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_listar_compras",
+      "parentId": "fld_compras",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Listar Todas as Compras",
+      "method": "GET",
+      "url": "{{ base_url }}/compras",
+      "_type": "request"
+    },
+    {
+      "_id": "req_buscar_compra",
+      "parentId": "fld_compras",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Buscar Compra por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/compras/1",
+      "_type": "request"
+    },
+    {
+      "_id": "req_buscar_cliente",
+      "parentId": "fld_compras",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Buscar Compras por Cliente",
+      "method": "GET",
+      "url": "{{ base_url }}/compras/cliente/João Silva",
+      "_type": "request"
+    },
+    {
+      "_id": "req_buscar_status",
+      "parentId": "fld_compras",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Buscar por Status",
+      "method": "GET",
+      "url": "{{ base_url }}/compras/status/CONFIRMADA",
+      "_type": "request"
+    },
+    {
+      "_id": "req_cancelar_compra",
+      "parentId": "fld_compras",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Cancelar Compra",
+      "method": "PUT",
+      "url": "{{ base_url }}/compras/1/cancelar",
+      "_type": "request"
+    },
+    {
+      "_id": "req_deletar_compra",
+      "parentId": "fld_compras",
+      "modified": 1708454400000,
+      "created": 1708454400000,
+      "name": "Deletar Compra",
+      "method": "DELETE",
+      "url": "{{ base_url }}/compras/1",
+      "_type": "request"
+    }
+  ]
+}
+

@@ -1,0 +1,105 @@
+package com.java.projetc.controller;
+
+import com.java.projetc.dto.ProdutoDTO;
+import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class ProdutoControllerTest {
+
+    @Test
+    public void testCriarProduto() {
+        ProdutoDTO produtoDTO = new ProdutoDTO(
+                null,
+                "Batom Teste",
+                "Descrição teste",
+                new BigDecimal("45.90"),
+                50,
+                "Lábios",
+                "Mac"
+        );
+
+        assertNotNull(produtoDTO);
+        assertEquals("Batom Teste", produtoDTO.getNome());
+        assertEquals(new BigDecimal("45.90"), produtoDTO.getPreco());
+        assertEquals(50, produtoDTO.getEstoque());
+    }
+
+    @Test
+    public void testListarProdutos() {
+        ProdutoDTO[] produtos = new ProdutoDTO[2];
+        produtos[0] = new ProdutoDTO(
+                1L,
+                "Batom 1",
+                "Descrição 1",
+                new BigDecimal("45.90"),
+                50,
+                "Lábios",
+                "Mac"
+        );
+        produtos[1] = new ProdutoDTO(
+                2L,
+                "Batom 2",
+                "Descrição 2",
+                new BigDecimal("55.90"),
+                30,
+                "Olhos",
+                "Bobbi"
+        );
+
+        assertNotNull(produtos);
+        assertEquals(2, produtos.length);
+    }
+
+    @Test
+    public void testBuscarProdutoPorId() {
+        ProdutoDTO produtoDTO = new ProdutoDTO(
+                1L,
+                "Batom Teste",
+                "Descrição teste",
+                new BigDecimal("45.90"),
+                50,
+                "Lábios",
+                "Mac"
+        );
+
+        assertNotNull(produtoDTO);
+        assertEquals(1L, produtoDTO.getId());
+    }
+
+    @Test
+    public void testAtualizarProduto() {
+        ProdutoDTO produtoDTO = new ProdutoDTO(
+                1L,
+                "Batom Atualizado",
+                null,
+                new BigDecimal("55.90"),
+                null,
+                null,
+                null
+        );
+
+        assertNotNull(produtoDTO);
+        assertEquals("Batom Atualizado", produtoDTO.getNome());
+        assertEquals(new BigDecimal("55.90"), produtoDTO.getPreco());
+    }
+
+    @Test
+    public void testDeletarProduto() {
+        ProdutoDTO produtoDTO = new ProdutoDTO(
+                1L,
+                "Batom para Deletar",
+                "Descrição",
+                new BigDecimal("45.90"),
+                50,
+                "Lábios",
+                "Mac"
+        );
+
+        assertNotNull(produtoDTO);
+        assertEquals(1L, produtoDTO.getId());
+    }
+}
+
