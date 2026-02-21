@@ -1,0 +1,178 @@
+╔════════════════════════════════════════════════════════════════╗
+║          🚀 COMANDOS GIT RÁPIDOS - Cole e Execute             ║
+╚════════════════════════════════════════════════════════════════╝
+
+📍 CONFIGURAÇÃO INICIAL (FAÇA UMA VEZ):
+════════════════════════════════════════════════════════════════
+
+# 1. Criar repositório no GitHub (https://github.com/new)
+
+# 2. Configurar o remote (SUBSTITUA SEU_USUARIO):
+cd C:\Users\Hugo\Downloads\projetc
+git remote add origin https://github.com/SEU_USUARIO/projetc.git
+
+# 3. Fazer push inicial:
+git branch -M main
+git push -u origin main
+
+# Autentique com:
+#   Username: seu_usuario_github
+#   Password: seu_token_pessoal (gere em https://github.com/settings/tokens)
+
+
+📤 FAZER PUSH (USE SEMPRE APÓS MUDANÇAS):
+════════════════════════════════════════════════════════════════
+
+# Opção 1: Script automático (RECOMENDADO)
+.\push.bat "Descrição da mudança"
+
+# Opção 2: Script PowerShell
+.\push.ps1 "Descrição da mudança"
+
+# Opção 3: Comandos manuais
+git add .
+git commit -m "Descrição da mudança"
+git push origin main
+
+
+📋 VERIFICAR STATUS:
+════════════════════════════════════════════════════════════════
+
+# Ver o que mudou
+git status
+
+# Ver histórico de commits
+git log
+
+# Ver branches locais
+git branch
+
+# Ver remotes configurados
+git remote -v
+
+
+🔄 ATUALIZAR DO GITHUB:
+════════════════════════════════════════════════════════════════
+
+# Puxar mudanças do remoto
+git pull origin main
+
+
+🌿 TRABALHAR COM BRANCHES:
+════════════════════════════════════════════════════════════════
+
+# Criar nova branch (para novas features)
+git checkout -b feature/nome-da-feature
+
+# Mudar para outra branch
+git checkout main
+
+# Listar branches
+git branch -a
+
+# Deletar branch local
+git branch -d feature/nome-da-feature
+
+# Fazer push da branch para o remoto
+git push origin feature/nome-da-feature
+
+
+❌ DESFAZER MUDANÇAS:
+════════════════════════════════════════════════════════════════
+
+# Desfazer último commit (mantém mudanças)
+git reset --soft HEAD~1
+
+# Desfazer último commit (perde mudanças)
+git reset --hard HEAD~1
+
+# Desfazer mudanças em um arquivo específico
+git restore arquivo.java
+
+# Desfazer mudanças em todos os arquivos (antes de commit)
+git restore .
+
+
+🔍 VISUALIZAR DIFERENÇAS:
+════════════════════════════════════════════════════════════════
+
+# Ver o que mudou no working directory
+git diff
+
+# Ver o que mudou no staging area
+git diff --cached
+
+# Ver diferenças entre branches
+git diff main feature/nova-feature
+
+
+📚 TIPOS DE COMMITS RECOMENDADOS:
+════════════════════════════════════════════════════════════════
+
+git commit -m "feat: Adiciona novo endpoint /produtos/search"
+git commit -m "fix: Corrige validação de estoque negativo"
+git commit -m "docs: Atualiza README com exemplos de API"
+git commit -m "style: Formata código do CompraService"
+git commit -m "refactor: Simplifica lógica de CompraService"
+git commit -m "test: Adiciona testes para ProdutoController"
+git commit -m "chore: Atualiza dependências do Maven"
+
+
+🔑 GERAR PERSONAL ACCESS TOKEN:
+════════════════════════════════════════════════════════════════
+
+1. Acesse: https://github.com/settings/tokens
+2. Clique: "Generate new token" → "Generate new token (classic)"
+3. Preencha:
+   - Note: projetc-token
+   - Expiration: 90 days
+   - Scopes: Marque APENAS "repo"
+4. Copie o token (aparece uma única vez!)
+5. Use como senha ao fazer git push
+
+
+⚠️ TROUBLESHOOTING:
+════════════════════════════════════════════════════════════════
+
+❌ "fatal: remote origin already exists"
+→ git remote remove origin
+→ git remote add origin URL_CORRETA
+
+❌ "Authentication failed"
+→ Use Personal Access Token, não senha
+→ Gere um novo em https://github.com/settings/tokens
+
+❌ "fatal: The current branch has no upstream branch"
+→ git push -u origin main
+
+❌ "fatal: not a git repository"
+→ Certifique-se de estar na pasta correta
+→ cd C:\Users\Hugo\Downloads\projetc
+
+
+✨ DICA PROFISSIONAL:
+════════════════════════════════════════════════════════════════
+
+Use o seguinte workflow:
+
+1. Crie uma branch para cada feature:
+   git checkout -b feature/minha-nova-funcionalidade
+
+2. Faça commits pequenos e significativos:
+   git commit -m "feat: Descrição clara da mudança"
+
+3. Quando terminar, faça push:
+   git push origin feature/minha-nova-funcionalidade
+
+4. No GitHub, abra um Pull Request (PR)
+
+5. Após revisar, faça merge para main
+
+6. Delete a branch:
+   git branch -d feature/minha-nova-funcionalidade
+
+
+════════════════════════════════════════════════════════════════
+Salve este arquivo como referência! 📌
+════════════════════════════════════════════════════════════════
+
