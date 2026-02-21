@@ -77,6 +77,116 @@ projetc/
 
 - Java 17 ou superior instalado
 - Maven 3.6+ instalado (ou use o Maven Wrapper incluído)
+- Git instalado (para versionamento do código)
+
+## 📦 Configuração do Git e Deploy no GitHub
+
+### Passo 1: Configurar Git Localmente
+
+Se ainda não configurou o Git, execute:
+
+```bash
+git config --global user.name "Seu Nome"
+git config --global user.email "seu.email@example.com"
+```
+
+Para configurar apenas para este projeto:
+
+```bash
+cd projetc
+git config user.name "Seu Nome"
+git config user.email "seu.email@example.com"
+```
+
+### Passo 2: Criar um Repositório no GitHub
+
+1. Acesse [https://github.com/new](https://github.com/new)
+2. Digite o nome do repositório: `projetc` (ou outro nome de sua preferência)
+3. Adicione uma descrição: "Backend da Loja de Maquiagem em Spring Boot"
+4. Selecione "Public" ou "Private" conforme preferência
+5. **Não** adicione README, gitignore ou license (já temos)
+6. Clique em "Create repository"
+
+### Passo 3: Adicionar Remote do Repositório
+
+Após criar o repositório no GitHub, você receberá um URL. Execute:
+
+```bash
+cd C:\Users\Hugo\Downloads\projetc
+git remote add origin https://github.com/SEU_USUARIO/projetc.git
+```
+
+**Substitua `SEU_USUARIO` pelo seu nome de usuário do GitHub**
+
+### Passo 4: Verificar a Configuração
+
+```bash
+git remote -v
+```
+
+Deve mostrar:
+```
+origin  https://github.com/SEU_USUARIO/projetc.git (fetch)
+origin  https://github.com/SEU_USUARIO/projetc.git (push)
+```
+
+### Passo 5: Fazer Push para o GitHub
+
+```bash
+git branch -M main
+git push -u origin main
+```
+
+Será solicitado seu login do GitHub. Se usar autenticação por senha:
+- **Username:** seu nome de usuário do GitHub
+- **Password:** seu token de acesso pessoal (PAT)
+
+**Para gerar um Personal Access Token:**
+1. Acesse [https://github.com/settings/tokens](https://github.com/settings/tokens)
+2. Clique em "Generate new token"
+3. Selecione os scopes: `repo` (acesso completo a repositórios)
+4. Copie o token gerado (use como senha)
+
+### Passo 6: Verificar Upload
+
+Após o push, acesse seu repositório no GitHub:
+```
+https://github.com/SEU_USUARIO/projetc
+```
+
+Pronto! Seu projeto está no GitHub! 🎉
+
+## 📝 Comandos Git Úteis
+
+```bash
+# Ver status do repositório
+git status
+
+# Ver histórico de commits
+git log
+
+# Ver branches
+git branch -a
+
+# Criar nova branch
+git checkout -b feature/nova-funcionalidade
+
+# Fazer commit
+git add .
+git commit -m "Descrição da mudança"
+
+# Fazer push
+git push origin main
+
+# Puxar atualizações
+git pull origin main
+
+# Desfazer último commit (sem perder as mudanças)
+git reset --soft HEAD~1
+
+# Desfazer último commit (perdendo as mudanças)
+git reset --hard HEAD~1
+```
 
 ### 2. Opção A: Usar Scripts Batch (Recomendado para Windows)
 
