@@ -229,8 +229,8 @@ Inclui 10 testes detalhados com checklists para cada funcionalidade.
 ### Mudar número WhatsApp
 Arquivo: `src/main/resources/static/js/app.js`
 ```javascript
-Procure por: window.open(`https://wa.me/5598984067365
-Altere: 5598984067365 para seu número com código do país
+Procure por: window.open(`https://wa.me/5598991237578
+Altere: 5598991237578 para seu número com código do país
 Exemplo: 5511999999999 (55=Brasil, 11=DDD, 999999999=número)
 ```
 

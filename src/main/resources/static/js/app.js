@@ -47,7 +47,7 @@ class CartManager {
         const text = this.cart.map(i => `${i.name} x${i.quantity}`).join('%0A');
         const total = this.getTotal().toFixed(2);
         const msg = `Gostaria de comprar:%0A${text}%0ATotal: R$ ${total}`;
-        window.open(`https://wa.me/5598984067365?text=${msg}`, '_blank');
+        window.open(`https://wa.me/5598991237578?text=${msg}`, '_blank');
         this.cart = [];
         this.save();
     }
