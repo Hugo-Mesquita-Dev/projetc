@@ -48,6 +48,9 @@
                 <button class="tab-button" data-tab="Pinceis" onclick="openTab(event, 'Pinceis')">
                     <i class="fas fa-paintbrush"></i> Pincéis
                 </button>
+                <button class="tab-button" data-tab="Acessorios" onclick="openTab(event, 'Acessorios')">
+                    <i class="fas fa-gift"></i> Acessórios
+                </button>
             </div>
 
             <!-- BATONS -->
@@ -285,8 +288,65 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+
+            <!-- ACESSÓRIOS -->
+            <div id="Acessorios" class="tab-content">
+                <div class="product-card" data-product-id="17">
+                    <img src="https://via.placeholder.com/250x250?text=Espelho+Portátil" alt="Espelho Portátil" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Espelho Portátil LED</h3>
+                        <p class="product-category">Acessórios</p>
+                        <p class="product-price">R$ 49,90</p>
+                        <p class="product-description">Espelho com iluminação LED e bolsa</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(17)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="18">
+                    <img src="https://via.placeholder.com/250x250?text=Organizador+Maquiagem" alt="Organizador" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Organizador de Maquiagem</h3>
+                        <p class="product-category">Acessórios</p>
+                        <p class="product-price">R$ 59,90</p>
+                        <p class="product-description">Estojo com compartimentos ajustáveis</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(18)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="19">
+                    <img src="https://via.placeholder.com/250x250?text=Removedor+Maquiagem" alt="Removedor" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Removedor de Maquiagem</h3>
+                        <p class="product-category">Acessórios</p>
+                        <p class="product-price">R$ 34,90</p>
+                        <p class="product-description">Água micelar 250ml para limpeza profunda</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(19)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="20">
+                    <img src="https://via.placeholder.com/250x250?text=Kit+Esponja" alt="Kit Esponja" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Kit 4 Esponjas de Maquiagem</h3>
+                        <p class="product-category">Acessórios</p>
+                        <p class="product-price">R$ 29,90</p>
+                        <p class="product-description">Esponjas em diferentes formatos e texturas</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(20)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+            </div>
 
     <footer>
         <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>

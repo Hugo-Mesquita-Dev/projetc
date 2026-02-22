@@ -159,6 +159,26 @@
                 return;
             }
 
+            let endereco = '';
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            // Se usuário não tem endereço cadastrado, solicita
+            if (!user || !user.endereco) {
+                endereco = prompt('Por favor, informe seu endereço de entrega:');
+                if (!endereco) {
+                    alert('Endereço é necessário para finalizar a compra!');
+                    return;
+                }
+
+                // Se usuário existe, atualiza com endereço
+                if (user) {
+                    user.endereco = endereco;
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
+            } else {
+                endereco = user.endereco;
+            }
+
             const items = cart.map(item =>
                 `📦 ${item.name} - Qty: ${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}`
             ).join('%0A');
@@ -167,7 +187,10 @@
             const shipping = subtotal > 100 ? 0 : 10;
             const total = (subtotal + shipping).toFixed(2);
 
-            const message = `Olá Love Makeup BL! 💄%0A%0AGostaria de fazer uma compra:%0A%0A${items}%0A%0A💳 Subtotal: R$ ${subtotal.toFixed(2)}%0A🚚 Frete: ${shipping === 0 ? 'GRÁTIS' : 'R$ ' + shipping.toFixed(2)}%0A💰 Total: R$ ${total}`;
+            const nomeCliente = user ? `${user.nome}` : 'Cliente';
+            const telefone = user ? user.telefone : 'Não informado';
+
+            const message = `Olá Love Makeup BL! 💄%0A%0A*NOVO PEDIDO*%0A%0A👤 Cliente: ${nomeCliente}%0A📱 Telefone: ${telefone}%0A📍 Endereço: ${endereco}%0A%0A*PRODUTOS:*%0A${items}%0A%0A💳 Subtotal: R$ ${subtotal.toFixed(2)}%0A🚚 Frete: ${shipping === 0 ? 'GRÁTIS' : 'R$ ' + shipping.toFixed(2)}%0A💰 *Total: R$ ${total}*`;
 
             window.open(`https://wa.me/5598991237578?text=${message}`, '_blank');
 

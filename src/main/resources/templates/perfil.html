@@ -92,6 +92,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="register-endereco">Endereço de Entrega</label>
+                            <input type="text" id="register-endereco" name="endereco" placeholder="Rua, número, bairro, cidade">
+                        </div>
+
+                        <div class="form-group">
                             <label for="register-senha">Senha *</label>
                             <input type="password" id="register-senha" name="senha" required>
                         </div>
@@ -145,6 +150,7 @@
             const nome = document.getElementById('register-nome').value.trim();
             const email = document.getElementById('register-email').value.trim();
             const telefone = document.getElementById('register-telefone').value.trim();
+            const endereco = document.getElementById('register-endereco').value.trim();
             const senha = document.getElementById('register-senha').value;
             const confirmaSenha = document.getElementById('register-confirmaSenha').value;
 
@@ -167,7 +173,8 @@
                 id: Date.now(),
                 nome: nome,
                 email: email,
-                telefone: telefone
+                telefone: telefone,
+                endereco: endereco
             };
 
             localStorage.setItem('user', JSON.stringify(user));
@@ -227,6 +234,10 @@
                 <div class="user-info-item">
                     <span class="user-info-label"><i class="fas fa-phone"></i> Telefone:</span>
                     <span class="user-info-value">${user.telefone || 'Não informado'}</span>
+                </div>
+                <div class="user-info-item">
+                    <span class="user-info-label"><i class="fas fa-map-marker-alt"></i> Endereço:</span>
+                    <span class="user-info-value">${user.endereco || 'Não informado'}</span>
                 </div>
                 <div class="user-info-item" style="text-align: center; padding: 1rem; background: #f0f0f0; border-radius: 5px;">
                     <p style="margin-bottom: 0.5rem; color: #666;">Membro desde: ${new Date(user.id).toLocaleDateString('pt-BR')}</p>
