@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Makeup BL</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <a href="/" class="logo">
+                <i class="fas fa-heart"></i> Love Makeup BL
+            </a>
+            <div class="header-actions">
+                <a href="/carrinho" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" style="display: none;">0</span>
+                </a>
+                <a href="/perfil" class="profile-icon">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/produtos">Produtos</a></li>
+                <li><a href="/sobre">Quem Somos</a></li>
+                <li><a href="/contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Bem‑vindo à Love Makeup BL</h1>
+            <p>Descubra nossa coleção exclusiva de produtos de maquiagem de alta qualidade</p>
+            <a href="/produtos" class="cta-button">Explorar Produtos</a>
+        </section>
+
+        <div class="container">
+            <section class="featured">
+                <h2 style="text-align: center; color: #d4477d; margin-bottom: 2rem; font-size: 2rem;">
+                    Por que escolher a Love Makeup BL?
+                </h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div style="text-align: center; padding: 2rem; background: #f9f9f9; border-radius: 10px;">
+                        <i class="fas fa-star" style="font-size: 2.5rem; color: #d4477d; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #d4477d;">Produtos de Qualidade</h3>
+                        <p>Selecionamos apenas os melhores produtos para nossas clientes</p>
+                    </div>
+                    <div style="text-align: center; padding: 2rem; background: #f9f9f9; border-radius: 10px;">
+                        <i class="fas fa-truck" style="font-size: 2.5rem; color: #d4477d; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #d4477d;">Entrega Rápida</h3>
+                        <p>Enviamos seus pedidos com rapidez e segurança</p>
+                    </div>
+                    <div style="text-align: center; padding: 2rem; background: #f9f9f9; border-radius: 10px;">
+                        <i class="fas fa-headset" style="font-size: 2.5rem; color: #d4477d; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #d4477d;">Atendimento Especializado</h3>
+                        <p>Nossa equipe está pronta para ajudá‑lo pelo WhatsApp</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>
+        <p>Rua Nova, nº 4 - Centro</p>
+        <p><a href="https://wa.me/5598984067365" target="_blank">WhatsApp: (98) 98406-7365</a></p>
+    </footer>
+
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>
+

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Love Makeup BL</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <a href="/" class="logo"><i class="fas fa-heart"></i> Love Makeup BL</a>
+            <div class="header-actions">
+                <a href="/carrinho" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" style="display: none;">0</span>
+                </a>
+                <a href="/perfil" class="profile-icon"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/produtos">Produtos</a></li>
+                <li><a href="/sobre">Quem Somos</a></li>
+                <li><a href="/contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1 style="color: #d4477d; margin-bottom: 2rem;">Nossos Produtos</h1>
+
+            <div class="tabs">
+                <button class="tab-button active" data-tab="Batons" onclick="openTab(event, 'Batons')">
+                    <i class="fas fa-palette"></i> Batons
+                </button>
+                <button class="tab-button" data-tab="Sombras" onclick="openTab(event, 'Sombras')">
+                    <i class="fas fa-sparkles"></i> Sombras
+                </button>
+                <button class="tab-button" data-tab="Bases" onclick="openTab(event, 'Bases')">
+                    <i class="fas fa-droplet"></i> Bases
+                </button>
+                <button class="tab-button" data-tab="Pinceis" onclick="openTab(event, 'Pinceis')">
+                    <i class="fas fa-paintbrush"></i> Pincéis
+                </button>
+            </div>
+
+            <!-- BATONS -->
+            <div id="Batons" class="tab-content active">
+                <div class="product-card" data-product-id="1">
+                    <img src="https://via.placeholder.com/250x250?text=Batom+Rosa" alt="Batom Rosa" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Batom Rosa Claro</h3>
+                        <p class="product-category">Batons</p>
+                        <p class="product-price">R$ 29,90</p>
+                        <p class="product-description">Batom de longa duração com acabamento matte</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(1)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="2">
+                    <img src="https://via.placeholder.com/250x250?text=Batom+Vermelho" alt="Batom Vermelho" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Batom Vermelho Intenso</h3>
+                        <p class="product-category">Batons</p>
+                        <p class="product-price">R$ 32,90</p>
+                        <p class="product-description">Batom cremoso com pigmentação vibrante</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(2)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="3">
+                    <img src="https://via.placeholder.com/250x250?text=Batom+Nude" alt="Batom Nude" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Batom Nude Natural</h3>
+                        <p class="product-category">Batons</p>
+                        <p class="product-price">R$ 28,90</p>
+                        <p class="product-description">Tom neutro perfeito para o dia a dia</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(3)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="4">
+                    <img src="https://via.placeholder.com/250x250?text=Batom+Coral" alt="Batom Coral" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Batom Coral Sunset</h3>
+                        <p class="product-category">Batons</p>
+                        <p class="product-price">R$ 31,90</p>
+                        <p class="product-description">Tom coral vibrante e moderno</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(4)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOMBRAS -->
+            <div id="Sombras" class="tab-content">
+                <div class="product-card" data-product-id="5">
+                    <img src="https://via.placeholder.com/250x250?text=Sombra+Ouro" alt="Sombra Ouro" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Sombra Ouro Cintilante</h3>
+                        <p class="product-category">Sombras</p>
+                        <p class="product-price">R$ 24,90</p>
+                        <p class="product-description">Sombra com efeito shimmer dourado</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(5)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="6">
+                    <img src="https://via.placeholder.com/250x250?text=Sombra+Marrom" alt="Sombra Marrom" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Sombra Marrom Chocolate</h3>
+                        <p class="product-category">Sombras</p>
+                        <p class="product-price">R$ 23,90</p>
+                        <p class="product-description">Sombra matte marrom profundo</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(6)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="7">
+                    <img src="https://via.placeholder.com/250x250?text=Sombra+Rosa" alt="Sombra Rosa" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Sombra Rosa Pérola</h3>
+                        <p class="product-category">Sombras</p>
+                        <p class="product-price">R$ 25,90</p>
+                        <p class="product-description">Sombra rosada com toque perolado</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(7)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="8">
+                    <img src="https://via.placeholder.com/250x250?text=Sombra+Preta" alt="Sombra Preta" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Sombra Preta Profunda</h3>
+                        <p class="product-category">Sombras</p>
+                        <p class="product-price">R$ 22,90</p>
+                        <p class="product-description">Sombra preta para efeito dramático</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(8)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BASES -->
+            <div id="Bases" class="tab-content">
+                <div class="product-card" data-product-id="9">
+                    <img src="https://via.placeholder.com/250x250?text=Base+Liquida" alt="Base Líquida" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Base Líquida SPF 30</h3>
+                        <p class="product-category">Bases</p>
+                        <p class="product-price">R$ 45,90</p>
+                        <p class="product-description">Base de longa duração com proteção solar</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(9)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="10">
+                    <img src="https://via.placeholder.com/250x250?text=Base+Po" alt="Base em Pó" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Base em Pó Compacta</h3>
+                        <p class="product-category">Bases</p>
+                        <p class="product-price">R$ 38,90</p>
+                        <p class="product-description">Base em pó para acabamento matte</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(10)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="11">
+                    <img src="https://via.placeholder.com/250x250?text=Corretivo" alt="Corretivo" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Corretivo Iluminador</h3>
+                        <p class="product-category">Bases</p>
+                        <p class="product-price">R$ 28,90</p>
+                        <p class="product-description">Corretivo com toque luminoso</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(11)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="12">
+                    <img src="https://via.placeholder.com/250x250?text=Primer" alt="Primer" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Primer Facial Premium</h3>
+                        <p class="product-category">Bases</p>
+                        <p class="product-price">R$ 42,90</p>
+                        <p class="product-description">Primer para melhor fixação da maquiagem</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(12)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PINCÉIS -->
+            <div id="Pinceis" class="tab-content">
+                <div class="product-card" data-product-id="13">
+                    <img src="https://via.placeholder.com/250x250?text=Pincel+Kabuki" alt="Pincel Kabuki" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Pincel Kabuki Profissional</h3>
+                        <p class="product-category">Pincéis</p>
+                        <p class="product-price">R$ 35,90</p>
+                        <p class="product-description">Pincel kabuki para aplicação de base</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(13)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="14">
+                    <img src="https://via.placeholder.com/250x250?text=Pincel+Sombra" alt="Pincel Sombra" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Pincel para Sombra</h3>
+                        <p class="product-category">Pincéis</p>
+                        <p class="product-price">R$ 18,90</p>
+                        <p class="product-description">Pincel macio para aplicação de sombra</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(14)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="15">
+                    <img src="https://via.placeholder.com/250x250?text=Pincel+Blush" alt="Pincel Blush" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Pincel para Blush</h3>
+                        <p class="product-category">Pincéis</p>
+                        <p class="product-price">R$ 22,90</p>
+                        <p class="product-description">Pincel para aplicação de blush</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(15)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product-id="16">
+                    <img src="https://via.placeholder.com/250x250?text=Kit+Pinceis" alt="Kit Pincéis" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">Kit com 7 Pincéis</h3>
+                        <p class="product-category">Pincéis</p>
+                        <p class="product-price">R$ 79,90</p>
+                        <p class="product-description">Kit completo com 7 pincéis profissionais</p>
+                        <div class="product-quantity">
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart(16)">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>
+        <p>Rua Nova, nº 4 - Centro</p>
+        <p><a href="https://wa.me/5598984067365" target="_blank">WhatsApp: (98) 98406-7365</a></p>
+    </footer>
+
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>
+

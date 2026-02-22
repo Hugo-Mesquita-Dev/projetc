@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Love Makeup BL</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <a href="/" class="logo"><i class="fas fa-heart"></i> Love Makeup BL</a>
+            <div class="header-actions">
+                <a href="/carrinho" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" style="display: none;">0</span>
+                </a>
+                <a href="/perfil" class="profile-icon"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/produtos">Produtos</a></li>
+                <li><a href="/sobre">Quem Somos</a></li>
+                <li><a href="/contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="contact-container">
+            <h1 style="color: #d4477d; margin-bottom: 1rem; text-align: center;">Entre em Contato</h1>
+            <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+                Tire suas dúvidas e converse conosco pelo WhatsApp!
+            </p>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp</h3>
+                    <p>
+                        <a href="https://wa.me/5598984067365" target="_blank" style="color: #d4477d; text-decoration: none;">
+                            (98) 98406-7365
+                        </a>
+                    </p>
+                    <p style="font-size: 0.9rem; color: #999;">Atendimento rápido e personalizado</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Localização</h3>
+                    <p>Rua Nova, nº 4 - Centro</p>
+                    <p>Belágua - Maranhão</p>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h2 style="color: #d4477d; margin-bottom: 1.5rem; text-align: center;">Deixe uma Mensagem</h2>
+                <form onsubmit="enviarMensagem(event)">
+                    <div class="form-group">
+                        <label for="nome">Nome *</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E‑mail *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="(98) 98406-7365">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assunto">Assunto *</label>
+                        <input type="text" id="assunto" name="assunto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mensagem">Mensagem *</label>
+                        <textarea id="mensagem" name="mensagem" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                    </button>
+                </form>
+            </div>
+
+            <div style="margin-top: 3rem; padding: 2rem; background: #f8d7e8; border-radius: 10px; text-align: center;">
+                <h3 style="color: #d4477d; margin-bottom: 1rem;">Horário de Atendimento</h3>
+                <p style="margin-bottom: 0.5rem;"><strong>Segunda a Sexta:</strong> 09:00 - 18:00</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Sábado:</strong> 10:00 - 16:00</p>
+                <p><strong>Domingo:</strong> Fechado</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>
+        <p>Rua Nova, nº 4 - Centro</p>
+        <p><a href="https://wa.me/5598984067365" target="_blank">WhatsApp: (98) 98406-7365</a></p>
+    </footer>
+
+    <script th:src="@{/js/app.js}"></script>
+    <script>
+        function enviarMensagem(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const telefone = document.getElementById('telefone').value;
+            const assunto = document.getElementById('assunto').value;
+            const mensagem = document.getElementById('mensagem').value;
+
+            const text = `Olá! Recebi uma mensagem de contato:%0A%0A📝 Nome: ${nome}%0A📧 E-mail: ${email}%0A📱 Telefone: ${telefone}%0A📌 Assunto: ${assunto}%0A💬 Mensagem: ${mensagem}`;
+
+            window.open(`https://wa.me/5598984067365?text=${text}`, '_blank');
+
+            document.querySelector('form').reset();
+            alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+        }
+    </script>
+</body>
+</html>
+

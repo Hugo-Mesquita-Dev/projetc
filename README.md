@@ -1,9 +1,10 @@
-# 🛍️ Loja de Maquiagem - Backend API
+# 🛍️ Loja de Maquiagem - Love Makeup BL
 
-Um projeto completo de backend em **Java Spring Boot** para gerenciar uma loja de maquiagem com funcionalidades de CRUD de produtos e gestão de compras.
+Um projeto **Full Stack** completo em **Java Spring Boot** com frontend **Thymeleaf** para gerenciar uma loja de maquiagem com funcionalidades de CRUD de produtos, gestão de compras e e-commerce interativo.
 
 ## 📋 Funcionalidades
 
+### Backend API
 ✅ **Gerenciamento de Produtos**
 - Criar novos produtos
 - Listar todos os produtos
@@ -19,6 +20,17 @@ Um projeto completo de backend em **Java Spring Boot** para gerenciar uma loja d
 - Deletar compras
 - Validação automática de estoque
 
+### Frontend Web
+✅ **Interface E-commerce**
+- **Homepage** com apresentação da loja
+- **Catálogo de Produtos** com filtro por categorias (Batons, Sombras, Bases, Pincéis)
+- **Carrinho de Compras** com gerenciamento de itens via localStorage
+- **Integração com WhatsApp** - envio automático de pedidos
+- **Sistema de Login/Registro** de clientes
+- **Página de Contato** com formulário e WhatsApp
+- **Página Quem Somos** com informações da loja
+- **Responsivo** e adaptado para mobile
+
 ✅ **Recursos Adicionais**
 - Banco de dados H2 em memória
 - CORS habilitado para acesso remoto
@@ -26,16 +38,27 @@ Um projeto completo de backend em **Java Spring Boot** para gerenciar uma loja d
 - Controle automático de datas (criação e atualização)
 - DTOs para transferência de dados
 - Validação de estoque nas compras
+- Design moderno inspirado em Boca Rosa
 
 ## 🛠️ Tecnologias Utilizadas
 
+### Backend
 - **Java 17**
-- **Spring Boot 3.2.0**
+- **Spring Boot 4.0.3**
 - **Spring Data JPA**
 - **Hibernate**
 - **H2 Database**
 - **Lombok**
 - **Maven**
+
+### Frontend
+- **Thymeleaf** (Template Engine)
+- **HTML5**
+- **CSS3** (com design responsivo)
+- **JavaScript ES6+**
+- **Font Awesome** (ícones)
+- **Google Fonts** (Poppins)
+- **LocalStorage API** (carrinho persistente)
 
 ## 📁 Estrutura do Projeto
 
@@ -46,7 +69,8 @@ projetc/
 │   │   ├── java/com/java/projetc/
 │   │   │   ├── controller/
 │   │   │   │   ├── ProdutoController.java
-│   │   │   │   └── CompraController.java
+│   │   │   │   ├── CompraController.java
+│   │   │   │   └── WebController.java
 │   │   │   ├── service/
 │   │   │   │   ├── ProdutoService.java
 │   │   │   │   └── CompraService.java
@@ -61,13 +85,25 @@ projetc/
 │   │   │   │   └── CompraDTO.java
 │   │   │   └── ProjetcApplication.java
 │   │   └── resources/
-│   │       └── application.properties
+│   │       ├── application.properties
+│   │       ├── templates/
+│   │       │   ├── layout.html
+│   │       │   ├── index.html
+│   │       │   ├── produtos.html
+│   │       │   ├── carrinho.html
+│   │       │   ├── contato.html
+│   │       │   ├── sobre.html
+│   │       │   └── perfil.html
+│   │       └── static/
+│   │           ├── css/
+│   │           │   └── style.css
+│   │           ├── js/
+│   │           │   └── app.js
+│   │           └── img/ (imagens de produtos)
 │   └── test/
 ├── pom.xml
-├── mvnw
-├── mvnw.cmd
+├── mvnw / mvnw.cmd
 ├── insomnia_collection.json
-├── API_DOCUMENTATION.md
 └── README.md
 ```
 
@@ -79,21 +115,237 @@ projetc/
 - Maven 3.6+ instalado (ou use o Maven Wrapper incluído)
 - Git instalado (para versionamento do código)
 
+### 2. Clone o Repositório
+
+```bash
+git clone https://github.com/SEU_USUARIO/projetc.git
+cd projetc
+```
+
+### 3. Compile o Projeto
+
+**Com Maven Wrapper (recomendado):**
+```bash
+./mvnw clean install
+```
+
+**Ou com Maven instalado:**
+```bash
+mvn clean install
+```
+
+### 4. Execute a Aplicação
+
+**Com Maven Wrapper:**
+```bash
+./mvnw spring-boot:run
+```
+
+**Ou diretamente:**
+```bash
+mvn spring-boot:run
+```
+
+A aplicação iniciará em `http://localhost:8080`
+
+### 5. Acessando a Aplicação
+
+#### Frontend (Thymeleaf)
+- **Home**: http://localhost:8080/
+- **Produtos**: http://localhost:8080/produtos
+- **Carrinho**: http://localhost:8080/carrinho
+- **Perfil/Login**: http://localhost:8080/perfil
+- **Contato**: http://localhost:8080/contato
+- **Quem Somos**: http://localhost:8080/sobre
+
+#### Backend API
+- **API Produtos**: http://localhost:8080/api/produtos
+- **API Compras**: http://localhost:8080/api/compras
+
+#### Ferramentas
+- **Console H2**: http://localhost:8080/h2-console
+  - JDBC URL: `jdbc:h2:mem:testdb`
+  - User Name: `sa`
+  - Password: (deixe em branco)
+
+## 💻 Como Usar o Frontend
+
+### Navegação Principal
+
+O site possui uma navegação intuitiva com:
+- **Header** com logo, carrinho e ícone de perfil
+- **Menu** com acesso às principais seções
+- **Footer** com informações de contato
+
+### 🛒 Carrinho de Compras
+
+1. Acesse **Produtos** (`/produtos`)
+2. Escolha um produto e clique em **"Adicionar ao Carrinho"**
+3. O número de itens aparecerá no ícone do carrinho
+4. Acesse **Carrinho** (`/carrinho`) para revisar
+5. Clique em **"Finalizar no WhatsApp"** para enviar o pedido
+
+#### Funcionalidades do Carrinho:
+- ✅ Aumentar/diminuir quantidade
+- ✅ Remover itens
+- ✅ Cálculo automático de frete
+- ✅ Frete grátis para compras acima de R$ 100
+
+### 👤 Sistema de Login/Registro
+
+1. Acesse **Perfil** (`/perfil`)
+2. Para **nova conta**: clique em "Criar Conta"
+3. Preencha os dados: Nome, E-mail, Telefone, Senha
+4. Para **login existente**: use as credenciais cadastradas
+5. Seu perfil será exibido com opção de logout
+
+#### Dados são Armazenados em:
+- localStorage do navegador (cliente-side)
+- Dados persistem enquanto o navegador não limpar cache
+
+### 📦 Categorias de Produtos
+
+Os produtos estão organizados em abas:
+- **Batons** - Vários tons e acabamentos
+- **Sombras** - Opções matte, shimmer e cintilante
+- **Bases** - Líquidas, pó e complementos
+- **Pincéis** - Kabuki, sombra, blush e kits
+
+### 📞 Contato e Suporte
+
+- **WhatsApp**: (98) 98406-7365
+- **Localização**: Rua Nova, nº 4 - Centro, Belágua - MA
+- **Formulário de contato**: Disponível em `/contato`
+
+## 🎨 Personalização
+
+### Alterar Número do WhatsApp
+
+Edite o arquivo `src/main/resources/static/js/app.js`:
+
+```javascript
+// Procure por:
+window.open(`https://wa.me/5598984067365?text=${msg}`, '_blank');
+
+// E altere para seu número:
+window.open(`https://wa.me/55XX999999999?text=${msg}`, '_blank');
+```
+
+### Alterar Cores da Loja
+
+Edite `src/main/resources/static/css/style.css`:
+
+```css
+:root {
+    --primary-color: #d4477d;      /* Cor principal (rosa) */
+    --secondary-color: #f8d7e8;    /* Cor secundária */
+    --dark-color: #333;             /* Cor escura */
+}
+```
+
+### Adicionar Mais Produtos
+
+Edite `src/main/resources/templates/produtos.html` e adicione novos cards dentro das abas:
+
+```html
+<div class="product-card" data-product-id="17">
+    <img src="URL_DA_IMAGEM" alt="Produto" class="product-image">
+    <div class="product-info">
+        <h3 class="product-name">Nome do Produto</h3>
+        <p class="product-category">Categoria</p>
+        <p class="product-price">R$ 00,00</p>
+        <p class="product-description">Descrição breve</p>
+        <div class="product-quantity">
+            <input type="number" class="quantity-input" value="1" min="1">
+        </div>
+        <button class="add-to-cart-btn" onclick="addToCart(17)">Adicionar ao Carrinho</button>
+    </div>
+</div>
+```
+
+## 🔧 Configurações da Aplicação
+
+### application.properties
+
+```properties
+# Server
+server.port=8080
+
+# H2 Database
+spring.h2.console.enabled=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+# JPA/Hibernate
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=false
+```
+
+## 📊 Endpoints da API
+
+### Produtos
+
+```bash
+# Listar todos
+GET /api/produtos
+
+# Buscar por ID
+GET /api/produtos/{id}
+
+# Buscar por categoria
+GET /api/produtos/categoria/{categoria}
+
+# Criar novo
+POST /api/produtos
+Content-Type: application/json
+{
+  "nome": "Batom Rosa",
+  "categoria": "Batons",
+  "preco": 29.90,
+  "estoque": 50
+}
+
+# Atualizar
+PUT /api/produtos/{id}
+
+# Deletar
+DELETE /api/produtos/{id}
+```
+
+### Compras
+
+```bash
+# Listar todas
+GET /api/compras
+
+# Buscar por ID
+GET /api/compras/{id}
+
+# Realizar compra
+POST /api/compras
+Content-Type: application/json
+{
+  "cliente": "João Silva",
+  "email": "joao@example.com",
+  "telefone": "119999999",
+  "produtoId": 1,
+  "quantidade": 2
+}
+
+# Cancelar compra
+PUT /api/compras/{id}/cancelar
+
+# Deletar
+DELETE /api/compras/{id}
+```
+
 ## 📦 Configuração do Git e Deploy no GitHub
 
 ### Passo 1: Configurar Git Localmente
 
-Se ainda não configurou o Git, execute:
-
 ```bash
-git config --global user.name "Seu Nome"
-git config --global user.email "seu.email@example.com"
-```
-
-Para configurar apenas para este projeto:
-
-```bash
-cd projetc
+cd C:\Users\Hugo\Projetos\projetc
 git config user.name "Seu Nome"
 git config user.email "seu.email@example.com"
 ```
@@ -101,68 +353,25 @@ git config user.email "seu.email@example.com"
 ### Passo 2: Criar um Repositório no GitHub
 
 1. Acesse [https://github.com/new](https://github.com/new)
-2. Digite o nome do repositório: `projetc` (ou outro nome de sua preferência)
-3. Adicione uma descrição: "Backend da Loja de Maquiagem em Spring Boot"
-4. Selecione "Public" ou "Private" conforme preferência
-5. **Não** adicione README, gitignore ou license (já temos)
-6. Clique em "Create repository"
+2. Digite o nome: `projetc`
+3. Descrição: "E-commerce de Maquiagem - Love Makeup BL"
+4. Clique em "Create repository"
 
-### Passo 3: Adicionar Remote do Repositório
-
-Após criar o repositório no GitHub, você receberá um URL. Execute:
+### Passo 3: Fazer Push para o GitHub
 
 ```bash
-cd C:\Users\Hugo\Downloads\projetc
 git remote add origin https://github.com/SEU_USUARIO/projetc.git
-```
-
-**Substitua `SEU_USUARIO` pelo seu nome de usuário do GitHub**
-
-### Passo 4: Verificar a Configuração
-
-```bash
-git remote -v
-```
-
-Deve mostrar:
-```
-origin  https://github.com/SEU_USUARIO/projetc.git (fetch)
-origin  https://github.com/SEU_USUARIO/projetc.git (push)
-```
-
-### Passo 5: Fazer Push para o GitHub
-
-```bash
 git branch -M main
 git push -u origin main
 ```
 
-Será solicitado seu login do GitHub. Se usar autenticação por senha:
-- **Username:** seu nome de usuário do GitHub
-- **Password:** seu token de acesso pessoal (PAT)
-
-**Para gerar um Personal Access Token:**
-1. Acesse [https://github.com/settings/tokens](https://github.com/settings/tokens)
-2. Clique em "Generate new token"
-3. Selecione os scopes: `repo` (acesso completo a repositórios)
-4. Copie o token gerado (use como senha)
-
-### Passo 6: Verificar Upload
-
-Após o push, acesse seu repositório no GitHub:
-```
-https://github.com/SEU_USUARIO/projetc
-```
-
-Pronto! Seu projeto está no GitHub! 🎉
-
 ## 📝 Comandos Git Úteis
 
 ```bash
-# Ver status do repositório
+# Ver status
 git status
 
-# Ver histórico de commits
+# Ver histórico
 git log
 
 # Ver branches
@@ -181,276 +390,62 @@ git push origin main
 # Puxar atualizações
 git pull origin main
 
-# Desfazer último commit (sem perder as mudanças)
+# Desfazer último commit (mantém mudanças)
 git reset --soft HEAD~1
 
-# Desfazer último commit (perdendo as mudanças)
+# Desfazer último commit (descarta mudanças)
 git reset --hard HEAD~1
 ```
 
-### 2. Opção A: Usar Scripts Batch (Recomendado para Windows)
+## 🚀 Deploy em Produção
 
-**Para compilar:**
-```bash
-# Execute o arquivo compilar.bat
-compilar.bat
-```
+Opções recomendadas:
 
-**Para executar:**
-```bash
-# Execute o arquivo executar.bat
-executar.bat
-```
-
-### 3. Opção B: Compilar Manualmente
-
-```bash
-cd projetc
-mvnw clean compile
-```
-
-### 4. Opção C: Executar com Maven
-
-```bash
-mvnw spring-boot:run
-```
-
-### 5. Acessar a Aplicação
-
-- **API Base URL:** `http://localhost:8080/api`
-- **H2 Console:** `http://localhost:8080/h2-console`
-  - JDBC URL: `jdbc:h2:mem:testdb`
-  - User: `sa`
-  - Password: (deixar em branco)
-
-## 📡 Endpoints da API
-
-### Base URL
-```
-http://localhost:8080/api
-```
-
-### Produtos
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| POST | `/produtos` | Criar novo produto |
-| GET | `/produtos` | Listar todos os produtos |
-| GET | `/produtos/{id}` | Buscar produto por ID |
-| GET | `/produtos/categoria/{categoria}` | Buscar por categoria |
-| GET | `/produtos/marca/{marca}` | Buscar por marca |
-| PUT | `/produtos/{id}` | Atualizar produto |
-| DELETE | `/produtos/{id}` | Deletar produto |
-
-### Compras
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| POST | `/compras` | Realizar compra |
-| GET | `/compras` | Listar todas as compras |
-| GET | `/compras/{id}` | Buscar compra por ID |
-| GET | `/compras/cliente/{cliente}` | Buscar por cliente |
-| GET | `/compras/status/{status}` | Buscar por status |
-| PUT | `/compras/{id}/cancelar` | Cancelar compra |
-| DELETE | `/compras/{id}` | Deletar compra |
-
-## 📥 Importar no Insomnia
-
-1. Abra o Insomnia
-2. Clique em **Import/Export** → **Import Data**
-3. Selecione o arquivo `insomnia_collection.json`
-4. A coleção "Loja de Maquiagem" será importada com todas as requisições
-
-## 📝 Exemplos de Requisições
-
-### Criar Produto
-
-```json
-POST /api/produtos
-Content-Type: application/json
-
-{
-  "nome": "Batom Vermelho Clássico",
-  "descricao": "Batom com pigmentação intensa e acabamento matte",
-  "preco": 45.90,
-  "estoque": 50,
-  "categoria": "Lábios",
-  "marca": "Mac"
-}
-```
-
-**Resposta (201 Created):**
-```json
-{
-  "id": 1,
-  "nome": "Batom Vermelho Clássico",
-  "descricao": "Batom com pigmentação intensa e acabamento matte",
-  "preco": 45.90,
-  "estoque": 50,
-  "categoria": "Lábios",
-  "marca": "Mac"
-}
-```
-
-### Realizar Compra
-
-```json
-POST /api/compras
-Content-Type: application/json
-
-{
-  "cliente": "João Silva",
-  "email": "joao@email.com",
-  "telefone": "11999999999",
-  "produtoId": 1,
-  "quantidade": 2
-}
-```
-
-**Resposta (201 Created):**
-```json
-{
-  "id": 1,
-  "cliente": "João Silva",
-  "email": "joao@email.com",
-  "telefone": "11999999999",
-  "produtoId": 1,
-  "produtoNome": "Batom Vermelho Clássico",
-  "quantidade": 2,
-  "valorTotal": 91.80,
-  "dataCompra": "2026-02-21T10:30:00",
-  "status": "CONFIRMADA"
-}
-```
-
-### Cancelar Compra
-
-```
-PUT /api/compras/1/cancelar
-```
-
-**Resposta (200 OK):**
-```json
-{
-  "id": 1,
-  "cliente": "João Silva",
-  "email": "joao@email.com",
-  "telefone": "11999999999",
-  "produtoId": 1,
-  "produtoNome": "Batom Vermelho Clássico",
-  "quantidade": 2,
-  "valorTotal": 91.80,
-  "dataCompra": "2026-02-21T10:30:00",
-  "status": "CANCELADA"
-}
-```
-
-## ⚠️ Códigos de Resposta HTTP
-
-| Código | Significado |
-|--------|------------|
-| 200 | OK - Requisição bem-sucedida |
-| 201 | Created - Recurso criado com sucesso |
-| 204 | No Content - Recurso deletado com sucesso |
-| 400 | Bad Request - Erro de validação (estoque insuficiente, produto não encontrado) |
-| 404 | Not Found - Recurso não encontrado |
-| 500 | Internal Server Error - Erro no servidor |
-
-## 🔒 Validações
-
-### Compras
-- ✅ Valida se o produto existe
-- ✅ Valida se há estoque suficiente
-- ✅ Reduz automaticamente o estoque após compra
-- ✅ Restaura estoque ao cancelar compra
-
-### Produtos
-- ✅ Require nome e preço
-- ✅ Require estoque
-- ✅ Rastreia data de criação e atualização
-
-## 🗄️ Modelo de Dados
-
-### Tabela: PRODUTOS
-
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| id | BIGINT | ID único (PK) |
-| nome | VARCHAR | Nome do produto |
-| descricao | TEXT | Descrição detalhada |
-| preco | DECIMAL | Preço unitário |
-| estoque | INT | Quantidade em estoque |
-| categoria | VARCHAR | Categoria (Lábios, Olhos, etc) |
-| marca | VARCHAR | Marca do produto |
-| data_criacao | TIMESTAMP | Data de criação |
-| data_atualizacao | TIMESTAMP | Data da última atualização |
-
-### Tabela: COMPRAS
-
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| id | BIGINT | ID único (PK) |
-| cliente | VARCHAR | Nome do cliente |
-| email | VARCHAR | Email do cliente |
-| telefone | VARCHAR | Telefone do cliente |
-| produto_id | BIGINT | ID do produto (FK) |
-| quantidade | INT | Quantidade comprada |
-| valor_total | DECIMAL | Valor total da compra |
-| data_compra | TIMESTAMP | Data da compra |
-| status | VARCHAR | Status (CONFIRMADA, CANCELADA) |
+- **Heroku**: Platform as a Service simples
+- **AWS**: Escalabilidade e robustez
+- **DigitalOcean**: Custo-benefício
+- **Google Cloud**: Integração com Google
 
 ## 🐛 Troubleshooting
 
-### Problema: "A sintaxe do comando está incorreta" ao executar mvn
-
-**Solução 1 - Usar os scripts batch fornecidos:**
+### Porta 8080 já em uso
 ```bash
-compilar.bat    # Para compilar
-executar.bat    # Para executar
+# Windows - encontre o processo
+netstat -ano | findstr :8080
+
+# Mude a porta em application.properties
+server.port=8081
 ```
 
-**Solução 2 - Usar o Prompt de Comando (CMD) em vez de PowerShell:**
-1. Abra o Prompt de Comando (não PowerShell)
-2. Execute: `mvnw clean compile`
-
-**Solução 3 - Usar Java direto:**
+### Erro de dependências Maven
 ```bash
-# Compilar com Maven Wrapper
-mvnw.cmd clean compile
+./mvnw clean
+./mvnw install -U
+```
 
-# Executar
+### Limpar cache do navegador
+```
+Ctrl + Shift + Delete (Windows/Linux)
+Cmd + Shift + Delete (Mac)
+```
+
+### Erro "A sintaxe do comando está incorreta"
+Use o Maven Wrapper fornecido:
+```bash
+mvnw.cmd clean compile
 mvnw.cmd spring-boot:run
 ```
 
-### Porta 8080 já está em uso
-```bash
-mvnw.cmd spring-boot:run --server.port=8081
-```
+## 📞 Suporte
 
-### Erro de compilação - Jakarta não encontrado
-Certifique-se de estar usando Java 17+:
-```bash
-java -version
-```
-
-### Banco de dados não inicializa
-O H2 é em memória, então os dados são perdidos ao reiniciar. Use um banco persistente modificando `application.properties`:
-```properties
-spring.datasource.url=jdbc:h2:file:./data/loja
-spring.jpa.hibernate.ddl-auto=update
-```
-
-## 📚 Documentação Detalhada
-
-Veja o arquivo `API_DOCUMENTATION.md` para exemplos completos de todas as requisições.
-
-## 👨‍💻 Contribuição
-
-Sinta-se à vontade para fazer fork, melhorar e enviar pull requests!
+Para dúvidas ou sugestões:
+- 📧 Email: contato@lovemakeupbl.com
+- 📱 WhatsApp: (98) 98406-7365
+- 📍 Localização: Belágua - Maranhão
 
 ## 📄 Licença
 
-Este projeto é de código aberto e disponível sob a licença MIT.
+Este projeto é fornecido como está para fins educacionais e comerciais. Todos os direitos reservados ao Love Makeup BL.
 
 ---
 
