@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Love Makeup BL</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8d7e8 0%, #fff 100%);
+        }
+
+        .login-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-card h2 {
+            color: #d4477d;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4477d;
+            box-shadow: 0 0 0 3px rgba(212, 71, 125, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 0.75rem;
+            background: #d4477d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-login:hover {
+            background: #b8366a;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .login-footer a {
+            color: #d4477d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .form-group .error {
+            display: block;
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <a href="/" class="logo"><i class="fas fa-heart"></i> Love Makeup BL</a>
+            <div class="header-actions">
+                <a href="/carrinho" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" style="display: none;">0</span>
+                </a>
+                <a href="/perfil" class="profile-icon"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/produtos">Produtos</a></li>
+                <li><a href="/sobre">Quem Somos</a></li>
+                <li><a href="/contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <div class="login-card">
+                <h2><i class="fas fa-sign-in-alt"></i> Faça Login</h2>
+
+                <!-- Mensagem de sucesso -->
+                <div th:if="${param.cadastro_sucesso}" class="alert alert-success">
+                    ✅ Cadastro realizado com sucesso! Você pode fazer login agora.
+                </div>
+
+                <!-- Mensagem de erro geral -->
+                <div th:if="${param.error}" class="alert alert-danger">
+                    ❌ Email ou senha incorretos. Tente novamente.
+                </div>
+
+                <!-- Mensagem de sessão expirada -->
+                <div th:if="${param.expired}" class="alert alert-danger">
+                    ⚠️ Sua sessão expirou. Faça login novamente.
+                </div>
+
+                <!-- Form de login com CSRF token -->
+                <form method="post" th:action="@{/login}">
+                    <!-- ← CSRF TOKEN (OBRIGATÓRIO) A04 -->
+                    <input type="hidden"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}"/>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="username">Email</label>
+                        <input type="email"
+                               id="username"
+                               name="username"
+                               required
+                               placeholder="seu.email@example.com"
+                               autofocus/>
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               required
+                               placeholder="Sua senha"/>
+                    </div>
+
+                    <!-- Botão de login -->
+                    <button type="submit" class="btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </button>
+                </form>
+
+                <!-- Link para cadastro -->
+                <div class="login-footer">
+                    Não tem uma conta?
+                    <a href="/cadastro">
+                        <i class="fas fa-user-plus"></i> Crie agora
+                    </a>
+                </div>
+
+                <!-- Link home -->
+                <div class="login-footer" style="margin-top: 1rem;">
+                    <a href="/">
+                        <i class="fas fa-arrow-left"></i> Voltar para Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>
+        <p>Rua Nova, nº 4 - Centro</p>
+        <p><a href="https://wa.me/5598984067365" target="_blank">WhatsApp: (98) 98406-7365</a></p>
+    </footer>
+
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>
+

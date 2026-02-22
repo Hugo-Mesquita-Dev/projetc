@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Love Makeup BL</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .cadastro-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8d7e8 0%, #fff 100%);
+            padding: 2rem;
+        }
+
+        .cadastro-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .cadastro-card h2 {
+            color: #d4477d;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .cadastro-card .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group small {
+            color: #999;
+            font-size: 0.85rem;
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4477d;
+            box-shadow: 0 0 0 3px rgba(212, 71, 125, 0.1);
+        }
+
+        .form-group .error {
+            display: block;
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .btn-cadastro {
+            width: 100%;
+            padding: 0.75rem;
+            background: #d4477d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-cadastro:hover {
+            background: #b8366a;
+        }
+
+        .cadastro-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .cadastro-footer a {
+            color: #d4477d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .cadastro-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .password-requirements {
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .password-requirements h4 {
+            color: #d4477d;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .password-requirements ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .password-requirements li {
+            color: #666;
+            margin: 0.25rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <a href="/" class="logo"><i class="fas fa-heart"></i> Love Makeup BL</a>
+            <div class="header-actions">
+                <a href="/carrinho" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" style="display: none;">0</span>
+                </a>
+                <a href="/perfil" class="profile-icon"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/produtos">Produtos</a></li>
+                <li><a href="/sobre">Quem Somos</a></li>
+                <li><a href="/contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="cadastro-container">
+            <div class="cadastro-card">
+                <h2><i class="fas fa-user-plus"></i> Criar Conta</h2>
+                <p class="subtitle">Junte-se à família Love Makeup BL</p>
+
+                <!-- Mensagem de erro -->
+                <div th:if="${erro}" class="alert alert-danger">
+                    ❌ <span th:text="${erro}"></span>
+                </div>
+
+                <!-- Form de cadastro com CSRF token -->
+                <form method="post" th:action="@{/cadastro}" th:object="${usuario}">
+                    <!-- ← CSRF TOKEN (OBRIGATÓRIO) A04 -->
+                    <input type="hidden"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}"/>
+
+                    <!-- Nome -->
+                    <div class="form-group">
+                        <label for="nome">Nome Completo *</label>
+                        <input type="text"
+                               id="nome"
+                               th:field="*{nome}"
+                               required
+                               minlength="3"
+                               maxlength="100"
+                               placeholder="Seu nome completo"/>
+                        <small>Entre 3 e 100 caracteres</small>
+                        <span th:if="${#fields.hasErrors('nome')}"
+                              th:errors="*{nome}"
+                              class="error"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email"
+                               id="email"
+                               th:field="*{email}"
+                               required
+                               placeholder="seu.email@example.com"/>
+                        <span th:if="${#fields.hasErrors('email')}"
+                              th:errors="*{email}"
+                              class="error"></span>
+                    </div>
+
+                    <!-- Telefone -->
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel"
+                               id="telefone"
+                               th:field="*{telefone}"
+                               pattern="[\d\s\-\(\)]+"
+                               placeholder="(XX) XXXXX-XXXX"/>
+                        <small>Opcional - Para contato sobre sua compra</small>
+                    </div>
+
+                    <!-- Endereço -->
+                    <div class="form-group">
+                        <label for="endereco">Endereço de Entrega</label>
+                        <input type="text"
+                               id="endereco"
+                               th:field="*{endereco}"
+                               maxlength="255"
+                               placeholder="Rua, número, bairro, cidade"/>
+                        <small>Opcional - Use quando for realizar compras</small>
+                    </div>
+
+                    <!-- Requisitos de senha -->
+                    <div class="password-requirements">
+                        <h4>Requisitos de Senha:</h4>
+                        <ul>
+                            <li>✓ Mínimo 8 caracteres</li>
+                            <li>✓ Pelo menos uma letra maiúscula (A-Z)</li>
+                            <li>✓ Pelo menos uma letra minúscula (a-z)</li>
+                            <li>✓ Pelo menos um número (0-9)</li>
+                            <li>✓ Pelo menos um caractere especial (@, $, !, %, *, &)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="form-group">
+                        <label for="senhaPlana">Senha *</label>
+                        <input type="password"
+                               id="senhaPlana"
+                               th:field="*{senhaPlana}"
+                               required
+                               minlength="8"
+                               placeholder="Crie uma senha forte"/>
+                        <span th:if="${#fields.hasErrors('senhaPlana')}"
+                              th:errors="*{senhaPlana}"
+                              class="error"></span>
+                    </div>
+
+                    <!-- Confirmar Senha (client-side only) -->
+                    <div class="form-group">
+                        <label for="confirmarSenha">Confirmar Senha *</label>
+                        <input type="password"
+                               id="confirmarSenha"
+                               required
+                               minlength="8"
+                               placeholder="Repita sua senha"
+                               onchange="validarSenhas()"/>
+                        <span id="senha-error" class="error" style="display: none;">
+                            As senhas não coincidem!
+                        </span>
+                    </div>
+
+                    <!-- Botão de cadastro -->
+                    <button type="submit" class="btn-cadastro">
+                        <i class="fas fa-user-plus"></i> Criar Conta
+                    </button>
+                </form>
+
+                <!-- Link para login -->
+                <div class="cadastro-footer">
+                    Já tem uma conta?
+                    <a href="/login">
+                        <i class="fas fa-sign-in-alt"></i> Faça login
+                    </a>
+                </div>
+
+                <!-- Link home -->
+                <div class="cadastro-footer" style="margin-top: 1rem;">
+                    <a href="/">
+                        <i class="fas fa-arrow-left"></i> Voltar para Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>
+        <p>Rua Nova, nº 4 - Centro</p>
+        <p><a href="https://wa.me/5598984067365" target="_blank">WhatsApp: (98) 98406-7365</a></p>
+    </footer>
+
+    <script th:src="@{/js/app.js}"></script>
+    <script>
+        /**
+         * Validar se as senhas coincidem (client-side)
+         * Validação server-side também ocorre em Usuario entity
+         */
+        function validarSenhas() {
+            const senha = document.getElementById('senhaPlana').value;
+            const confirmar = document.getElementById('confirmarSenha').value;
+            const errorSpan = document.getElementById('senha-error');
+
+            if (confirmar && senha !== confirmar) {
+                errorSpan.style.display = 'block';
+            } else {
+                errorSpan.style.display = 'none';
+            }
+        }
+
+        // Validar quando usuario digita
+        document.getElementById('confirmarSenha').addEventListener('input', validarSenhas);
+    </script>
+</body>
+</html>
+

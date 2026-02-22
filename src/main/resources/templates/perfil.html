@@ -76,6 +76,11 @@
                 <div id="register-form" class="auth-form">
                     <h3 style="color: #d4477d; margin-bottom: 1.5rem; text-align: center;">Criar Nova Conta</h3>
                     <form onsubmit="realizarRegistro(event)">
+                        <!-- CSRF TOKEN (A04: CSRF Protection) -->
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}"/>
+
                         <div class="form-group">
                             <label for="register-nome">Nome Completo *</label>
                             <input type="text" id="register-nome" name="nome" required>
