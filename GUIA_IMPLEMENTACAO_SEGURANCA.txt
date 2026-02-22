@@ -1,0 +1,449 @@
+GUIA DE IMPLEMENTAÇÃO - SEGURANÇA LOVE MAKEUP BL
+================================================================================
+
+PASSO 1: ADICIONAR DEPENDÊNCIAS AO pom.xml
+================================================================================
+
+No arquivo pom.xml, adicione dentro de <dependencies>:
+
+<!-- Spring Security 6.x -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+
+<!-- Jakarta Validation (Bean Validation) -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+
+<!-- Rate Limiting (Bucket4j) -->
+<dependency>
+    <groupId>com.github.vladimir-bukhtoyarov</groupId>
+    <artifactId>bucket4j-core</artifactId>
+    <version>7.10.0</version>
+</dependency>
+
+<!-- Spring Security Test (para testes) -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-test</artifactId>
+    <scope>test</scope>
+</dependency>
+
+Depois execute:
+mvnw clean install
+
+================================================================================
+PASSO 2: CRIAR SecurityConfig.java
+================================================================================
+
+Arquivo: src/main/java/com/java/projetc/config/SecurityConfig.java
+
+(Use o código em PLANO_SEGURANCA_OWASP.md - seção "SecurityConfig.java")
+
+Este arquivo configura:
+✅ A01: RBAC com @PreAuthorize
+✅ A02: Headers seguros (HSTS, CSP, X-Frame-Options)
+✅ A04: CSRF Protection
+✅ A07: Password encoding com BCrypt
+
+================================================================================
+PASSO 3: CRIAR CustomUserDetailsService
+================================================================================
+
+Arquivo: src/main/java/com/java/projetc/service/CustomUserDetailsService.java
+
+package com.java.projetc.service;
+
+import com.java.projetc.model.Usuario;
+import com.java.projetc.repository.UsuarioRepository;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import java.util.Collection;
+import java.util.Collections;
+
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    private final UsuarioRepository usuarioRepository;
+
+    public CustomUserDetailsService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("Email não encontrado: " + email));
+
+        Collection<GrantedAuthority> authorities = Collections.singletonList(
+            new SimpleGrantedAuthority("ROLE_" + usuario.getRole().name())
+        );
+
+        return org.springframework.security.core.userdetails.User
+            .withUsername(usuario.getEmail())
+            .password(usuario.getSenha()) // Já hashed
+            .authorities(authorities)
+            .accountExpired(false)
+            .accountLocked(false)
+            .credentialsExpired(false)
+            .disabled(false)
+            .build();
+    }
+}
+
+================================================================================
+PASSO 4: CRIAR UsuarioRepository COM findByEmail
+================================================================================
+
+Arquivo: src/main/java/com/java/projetc/repository/UsuarioRepository.java
+
+package com.java.projetc.repository;
+
+import com.java.projetc.model.Usuario;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.Optional;
+
+@Repository
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+    Optional<Usuario> findByEmail(String email);
+    boolean existsByEmail(String email);
+}
+
+================================================================================
+PASSO 5: CRIAR UsuarioService COM MÉTODOS SEGUROS
+================================================================================
+
+Arquivo: src/main/java/com/java/projetc/service/UsuarioService.java
+
+package com.java.projetc.service;
+
+import com.java.projetc.model.Usuario;
+import com.java.projetc.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import jakarta.validation.Valid;
+
+@Service
+public class UsuarioService {
+
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UsuarioService(UsuarioRepository repo, PasswordEncoder encoder) {
+        this.usuarioRepository = repo;
+        this.passwordEncoder = encoder;
+    }
+
+    /**
+     * Cadastro seguro
+     * - Valida email único
+     * - Faz hash da senha
+     */
+    public Usuario cadastrar(@Valid Usuario usuario) {
+        // Validar se email já existe
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new IllegalArgumentException("Email já cadastrado");
+        }
+
+        // Fazer hash da senha
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenhaPlana()));
+        usuario.setSenhaPlana(null); // Limpar campo transient
+
+        return usuarioRepository.save(usuario);
+    }
+
+    /**
+     * Atualizar dados do usuário (sem alterar senha)
+     */
+    public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
+        Usuario usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+
+        usuario.setNome(usuarioAtualizado.getNome());
+        usuario.setTelefone(usuarioAtualizado.getTelefone());
+        usuario.setEndereco(usuarioAtualizado.getEndereco());
+
+        return usuarioRepository.save(usuario);
+    }
+
+    /**
+     * Buscar por email
+     */
+    public Usuario buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+    }
+}
+
+================================================================================
+PASSO 6: CRIAR CONTROLLER DE AUTENTICAÇÃO
+================================================================================
+
+Arquivo: src/main/java/com/java/projetc/controller/AuthController.java
+
+package com.java.projetc.controller;
+
+import com.java.projetc.model.Usuario;
+import com.java.projetc.service.UsuarioService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+
+@Controller
+public class AuthController {
+
+    private final UsuarioService usuarioService;
+
+    public AuthController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/cadastro")
+    public String cadastroForm(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "cadastro";
+    }
+
+    @PostMapping("/cadastro")
+    public String cadastro(@Valid @ModelAttribute Usuario usuario) {
+        usuarioService.cadastrar(usuario);
+        return "redirect:/login?cadastro_sucesso=true";
+    }
+}
+
+================================================================================
+PASSO 7: ATUALIZAR application.properties
+================================================================================
+
+Arquivo: src/main/resources/application.properties
+
+Adicione:
+
+# Spring Security
+spring.security.user.name=admin@lovemakeup.com
+spring.security.user.password=temporaria123
+
+# JPA
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+
+# Logging (sem dados sensíveis)
+logging.level.root=INFO
+logging.level.org.springframework.security=DEBUG
+logging.level.com.java.projetc=DEBUG
+
+================================================================================
+PASSO 8: CRIAR application-prod.properties
+================================================================================
+
+Arquivo: src/main/resources/application-prod.properties
+
+# Database - usar PostgreSQL em produção!
+spring.datasource.url=jdbc:postgresql://localhost:5432/lovemakeup
+spring.datasource.username=${DB_USER}
+spring.datasource.password=${DB_PASSWORD}
+spring.datasource.hikari.maximum-pool-size=20
+
+# H2 DESABILITAR EM PRODUÇÃO
+spring.h2.console.enabled=false
+
+# JPA
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.show-sql=false
+
+# Logging - NUNCA expor senhas
+logging.level.root=WARN
+logging.level.org.springframework.security=WARN
+logging.level.com.java.projetc=INFO
+
+# HTTPS
+server.ssl.enabled=true
+server.ssl.key-store=${SSL_KEYSTORE_PATH}
+server.ssl.key-store-password=${SSL_KEYSTORE_PASSWORD}
+server.ssl.key-store-type=PKCS12
+
+# Actuator - expor apenas health e info
+management.endpoints.web.exposure.include=health,info
+management.endpoint.health.show-details=when-authorized
+
+================================================================================
+PASSO 9: INCLUIR CSRF TOKEN EM FORMS THYMELEAF
+================================================================================
+
+Exemplo para templates/perfil.html:
+
+<form th:action="@{/perfil/atualizar/{id}(id=${usuario.id})}" method="post" th:object="${usuario}">
+
+    <!-- CSRF TOKEN (OBRIGATÓRIO!) -->
+    <input type="hidden"
+           th:name="${_csrf.parameterName}"
+           th:value="${_csrf.token}"/>
+
+    <!-- Resto do formulário -->
+    <input type="text" th:field="*{nome}" required/>
+    <input type="email" th:field="*{email}" readonly/>
+    <input type="tel" th:field="*{telefone}"/>
+    <input type="text" th:field="*{endereco}"/>
+
+    <button type="submit">Salvar</button>
+</form>
+
+================================================================================
+PASSO 10: ADICIONAR @PreAuthorize AOS CONTROLLERS
+================================================================================
+
+Exemplo para PerfilController:
+
+@Controller
+@RequestMapping("/perfil")
+public class PerfilController {
+
+    @GetMapping
+    @PreAuthorize("isAuthenticated()")
+    public String verPerfil(Authentication authentication, Model model) {
+        String email = authentication.getName();
+        Usuario usuario = usuarioService.buscarPorEmail(email);
+        model.addAttribute("usuario", usuario);
+        return "perfil";
+    }
+
+    @PostMapping("/{id}/atualizar")
+    @PreAuthorize("@segurancaService.ehProprietario(#id) or hasRole('ADMIN')")
+    public String atualizar(@PathVariable Long id, @Valid @ModelAttribute Usuario usuario) {
+        usuarioService.atualizar(id, usuario);
+        return "redirect:/perfil?sucesso=true";
+    }
+}
+
+================================================================================
+PASSO 11: IMPLEMENTAR RATE LIMITING
+================================================================================
+
+Arquivo: src/main/java/com/java/projetc/service/RateLimitService.java
+
+package com.java.projetc.service;
+
+import io.github.bucket4j.*;
+import org.springframework.stereotype.Service;
+import java.time.Duration;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Service
+public class RateLimitService {
+
+    private final Map<String, Bucket> buckets = new ConcurrentHashMap<>();
+
+    public Bucket resolveBucket(String chave) {
+        return buckets.computeIfAbsent(chave, k -> criarBucket());
+    }
+
+    private Bucket criarBucket() {
+        Bandwidth limite = Bandwidth.classic(10, Refill.intervally(10, Duration.ofMinutes(1)));
+        return Bucket4j.builder().addLimit(limite).build();
+    }
+
+    public boolean permitir(String chave) {
+        return resolveBucket(chave).tryConsume(1);
+    }
+}
+
+E em ContatoController:
+
+@PostMapping("/api/contato")
+public ResponseEntity<?> enviarContato(
+        @Valid @RequestBody ContatoRequest contato,
+        HttpServletRequest request) {
+
+    String ip = request.getRemoteAddr();
+
+    if (!rateLimitService.permitir(ip)) {
+        return ResponseEntity.status(429)
+            .body(Map.of("erro", "Limite de requisições excedido"));
+    }
+
+    // ... lógica de contato
+}
+
+================================================================================
+PASSO 12: TESTAR SEGURANÇA
+================================================================================
+
+Teste básico com Spring Security Test:
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class SecurityTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    public void testarAcessoPublico() throws Exception {
+        mockMvc.perform(get("/produtos"))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testarAcessoProtegido() throws Exception {
+        mockMvc.perform(get("/perfil"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    @WithMockUser(roles = "CUSTOMER")
+    public void testarAcessoAutenticado() throws Exception {
+        mockMvc.perform(get("/perfil"))
+            .andExpect(status().isOk());
+    }
+}
+
+================================================================================
+CHECKLIST FINAL
+================================================================================
+
+- [ ] Adicionar dependências ao pom.xml
+- [ ] Criar SecurityConfig.java
+- [ ] Criar CustomUserDetailsService.java
+- [ ] Criar UsuarioRepository com findByEmail
+- [ ] Criar UsuarioService com cadastrar()
+- [ ] Criar AuthController (login/cadastro)
+- [ ] Criar Usuario model com validações
+- [ ] Atualizar application.properties
+- [ ] Criar application-prod.properties
+- [ ] Adicionar CSRF tokens em forms
+- [ ] Adicionar @PreAuthorize em controllers
+- [ ] Implementar Rate Limiting
+- [ ] Testar login/autenticação
+- [ ] Testar acesso protegido
+- [ ] Compilar com: mvnw clean compile
+- [ ] Executar com: mvnw spring-boot:run
+
+================================================================================
+PRÓXIMOS PASSOS
+================================================================================
+
+1. Adicionar duas fatores (2FA) com TOTP
+2. Integrar com banco de dados (PostgreSQL)
+3. Configurar HTTPS em produção
+4. Adicionar OWASP Dependency-Check
+5. Configurar logging centralizado
+6. Implementar audit trail para operações críticas
+7. Adicionar proteção contra brute force
+
+================================================================================
+

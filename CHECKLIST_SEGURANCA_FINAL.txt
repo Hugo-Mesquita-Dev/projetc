@@ -1,0 +1,316 @@
+🔒 CHECKLIST FINAL DE SEGURANÇA - LOVE MAKEUP BL
+================================================================================
+
+STATUS GERAL: ⚠️ CRÍTICO - Requer implementação imediata de Spring Security
+
+================================================================================
+OWASP TOP 10:2025 - IMPLEMENTAÇÃO
+================================================================================
+
+✅ A01: BROKEN ACCESS CONTROL
+- [ ] Criar SecurityConfig com @PreAuthorize
+- [ ] Implementar RBAC (ROLE_CUSTOMER, ROLE_ADMIN)
+- [ ] Adicionar verificação de ownership em endpoints
+- [ ] Testar: Cliente não pode ver dados de outro
+- Status: 🔴 NÃO INICIADO
+
+✅ A02: SECURITY MISCONFIGURATION
+- [ ] Criar application-prod.properties
+- [ ] Desabilitar H2 Console em produção
+- [ ] Habilitar HSTS (HTTP Strict Transport Security)
+- [ ] Configurar X-Frame-Options: DENY
+- [ ] Configurar X-Content-Type-Options: nosniff
+- [ ] Remover Spring Boot Banner em produção
+- [ ] Usar variáveis de ambiente para secrets
+- Status: 🔴 NÃO INICIADO
+
+✅ A03: SOFTWARE SUPPLY CHAIN FAILURES
+- [ ] Adicionar OWASP Dependency-Check Maven plugin
+- [ ] Executar: mvn dependency-check:check
+- [ ] Revisar dependências vulneráveis
+- [ ] Atualizar versões conforme necessário
+- [ ] Configurar Dependabot no GitHub
+- Status: 🔴 NÃO INICIADO
+
+✅ A04: INJECTION (SQL, NoSQL, etc)
+- [ ] Usar prepared statements (JPA automático)
+- [ ] Adicionar CSRF tokens em todos os forms
+- [ ] Incluir <input type="hidden" name="${_csrf.parameterName}" />
+- [ ] Testar: Requisição POST sem CSRF falha
+- [ ] Validar input com @Valid + Bean Validation
+- Status: 🟡 PARCIALMENTE (JPA OK, CSRF pendente)
+
+✅ A05: INSECURE DESIGN
+- [ ] Implementar Rate Limiting (Bucket4j)
+- [ ] Adicionar captcha em formulários críticos
+- [ ] Validar comprimento e complexidade de senha
+- [ ] Implementar timeout de sessão
+- [ ] Bloquear login após N tentativas fracassadas
+- Status: 🔴 NÃO INICIADO
+
+✅ A06: VULNERABLE AND OUTDATED COMPONENTS
+- [ ] Atualizar Spring Boot para versão mais recente
+- [ ] Revisar dependências do pom.xml
+- [ ] Remover dependências não utilizadas
+- [ ] Executar: mvn versions:display-dependency-updates
+- [ ] Configurar renovação automática (Dependabot)
+- Status: 🔴 NÃO INICIADO
+
+✅ A07: IDENTIFICATION AND AUTHENTICATION FAILURES
+- [ ] Implementar BCryptPasswordEncoder
+- [ ] Validar força de senha (min 8 chars, uppercase, number, special)
+- [ ] Implementar proteção contra Session Fixation
+- [ ] Limitar a 1 sessão por usuário
+- [ ] Adicionar logout automático após inatividade
+- [ ] Implementar 2FA com TOTP (futuro)
+- Status: 🔴 NÃO INICIADO
+
+✅ A08: SOFTWARE AND DATA INTEGRITY FAILURES
+- [ ] Usar HTTPS obrigatório em produção
+- [ ] Implementar SRI (Subresource Integrity) para CDN
+- [ ] Verificar integridade de dependências
+- [ ] Assinar artefatos em CI/CD
+- Status: 🟡 PARCIALMENTE (Falta HTTPS)
+
+✅ A09: SECURITY LOGGING AND MONITORING FAILURES
+- [ ] Implementar audit logging para operações críticas
+- [ ] Registrar: login, logout, alteração de dados
+- [ ] Usar SLF4J com MDC para contexto
+- [ ] NUNCA logar senhas ou dados sensíveis
+- [ ] Configurar alertas para atividades suspeitas
+- [ ] Retenção de logs: mínimo 30 dias
+- Status: 🔴 NÃO INICIADO
+
+✅ A10: SERVER-SIDE REQUEST FORGERY (SSRF)
+- [ ] Validar URLs antes de fazer requests
+- [ ] Implementar whitelist de URLs permitidas
+- [ ] Desabilitar suporte a file:// e gopher://
+- [ ] Validar input em IntegracaoWhatsApp
+- Status: 🟡 PARCIALMENTE (Integração com WhatsApp)
+
+================================================================================
+SEGURANÇA DA AUTENTICAÇÃO ATUAL
+================================================================================
+
+🔴 CRÍTICO - localStorage com senhas em texto plano
+
+Risco: Um atacante com acesso ao navegador (XSS) pode roubar todas as senhas
+
+Solução:
+1. Migrar para Spring Security (servidor)
+2. Usar sessões HTTP-only (JSESSIONID)
+3. Remover senhas do localStorage
+4. Implementar CSRF protection
+
+Antes (INSEGURO):
+```javascript
+// localStorage.setItem('user', {email, senha_texto_plano, ...})
+// Vulnerável a: XSS, roubo de credenciais
+```
+
+Depois (SEGURO):
+```java
+// Spring Security gerencia sessão do lado do servidor
+// Senha hasheada com BCrypt no servidor
+// Cliente recebe apenas JSESSIONID (seguro)
+```
+
+================================================================================
+CHECKLIST DE IMPLEMENTAÇÃO TÉCNICA
+================================================================================
+
+FASE 1: Autenticação e Autorização (1-2 semanas)
+---------------------------------------------
+- [ ] Adicionar Spring Security ao pom.xml
+- [ ] Criar SecurityConfig.java com SecurityFilterChain
+- [ ] Criar CustomUserDetailsService
+- [ ] Criar UsuarioRepository com findByEmail()
+- [ ] Criar Usuario entity com senha hashed
+- [ ] Criar UsuarioService com cadastrar/atualizar
+- [ ] Criar AuthController (login/cadastro/logout)
+- [ ] Criar templates: login.html, cadastro.html
+- [ ] Incluir CSRF tokens em todos os forms
+- [ ] Adicionar @PreAuthorize aos controllers
+- [ ] Migrar dados de usuário de localStorage para BD
+
+FASE 2: Segurança de Headers e Configuração (3-5 dias)
+-----------------------------------------------------
+- [ ] Habilitar HSTS em SecurityConfig
+- [ ] Habilitar CSP (Content Security Policy)
+- [ ] Habilitar X-Frame-Options: DENY
+- [ ] Criar application-prod.properties
+- [ ] Desabilitar H2 Console em produção
+- [ ] Usar variáveis de ambiente para secrets
+- [ ] Testar headers com curl ou browser DevTools
+
+FASE 3: Rate Limiting e Proteção (3-5 dias)
+------------------------------------------
+- [ ] Adicionar Bucket4j ao pom.xml
+- [ ] Implementar RateLimitService
+- [ ] Aplicar rate limiting em /api/contato
+- [ ] Aplicar rate limiting em endpoints de login
+- [ ] Testar: Exceder limite retorna 429
+
+FASE 4: Validação e Sanitização (3-5 dias)
+------------------------------------------
+- [ ] Adicionar @Valid em todos os DTOs
+- [ ] Criar validadores customizados (se necessário)
+- [ ] Implementar error handling para validation
+- [ ] Testar: Dados inválidos são rejeitados
+- [ ] Verificar escape automático no Thymeleaf
+
+FASE 5: Testes de Segurança (1 semana)
+-------------------------------------
+- [ ] Criar testes com @WithMockUser
+- [ ] Testar acesso protegido (deve redirecionar)
+- [ ] Testar CSRF (POST sem token deve falhar)
+- [ ] Testar autorização (client não pode acessar /admin)
+- [ ] Testar session fixation
+- [ ] Testar CORS headers
+
+FASE 6: Audit e Monitoring (1 semana)
+-----------------------------------
+- [ ] Implementar AuditListener para alterações
+- [ ] Logar tentativas de login falhadas
+- [ ] Logar alterações de dados críticos
+- [ ] Configurar alertas para atividades suspeitas
+- [ ] Testar retenção de logs
+
+================================================================================
+PRIORIDADES (DO MAIS AO MENOS CRÍTICO)
+================================================================================
+
+🔴 CRÍTICO (implementar primeiro):
+1. Spring Security + BCrypt password hashing
+2. Remover senhas de localStorage
+3. CSRF Protection + tokens em forms
+4. @PreAuthorize em controllers
+5. Desabilitar H2 Console em prod
+
+🟠 ALTO (implementar depois):
+6. Rate Limiting para APIs
+7. HSTS + Secure Headers
+8. Validação de input (Bean Validation)
+9. Audit logging
+10. Testes de segurança
+
+🟡 MÉDIO (implementar depois):
+11. 2FA com TOTP
+12. OWASP Dependency-Check
+13. SonarQube analysis
+14. HTTPS em produção
+15. Logging centralizado
+
+================================================================================
+COMANDOS PARA IMPLEMENTAÇÃO
+================================================================================
+
+1. Compilar com Spring Security:
+   mvnw clean compile
+
+2. Executar com profiles dev:
+   mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=dev"
+
+3. Executar com profiles prod:
+   mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod"
+
+4. Verificar dependências vulneráveis:
+   mvnw dependency-check:check
+
+5. Atualizar dependências:
+   mvnw versions:display-dependency-updates
+
+6. Rodar testes de segurança:
+   mvnw test -Dtest=SecurityTest
+
+================================================================================
+RECURSOS DE REFERÊNCIA
+================================================================================
+
+- Spring Security Docs: https://spring.io/projects/spring-security
+- OWASP Top 10:2025: https://owasp.org/Top10/
+- BCrypt Security: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+- CSRF Prevention: https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
+- Thymeleaf Security: https://www.thymeleaf.org/doc/articles/springsecurity.html
+
+================================================================================
+PRÓXIMAS REUNIÕES
+================================================================================
+
+- [ ] Reunião 1: Discutir implementação de Spring Security (30 min)
+- [ ] Reunião 2: Revisão de SecurityConfig e CustomUserDetailsService (30 min)
+- [ ] Reunião 3: Testes de segurança e CSRF protection (30 min)
+- [ ] Reunião 4: Rate limiting e monitoring (30 min)
+- [ ] Reunião 5: Review final e deploy para produção (1 hora)
+
+================================================================================
+NOTAS IMPORTANTES
+================================================================================
+
+1. NUNCA commitar secrets em git
+   - Use .gitignore para application-prod.properties
+   - Use variáveis de ambiente
+
+2. SEMPRE usar HTTPS em produção
+   - Gerar certificado SSL/TLS
+   - Configurar em server.ssl.*
+
+3. SEMPRE fazer backup do banco de dados
+   - Antes de fazer mudanças em produção
+
+4. SEMPRE testar em ambiente staging
+   - Não testar direto em produção
+
+5. SEMPRE manter logs de auditoria
+   - Mínimo 30 dias
+
+6. SEMPRE revisar código de segurança
+   - Code review obrigatório antes de merge
+
+================================================================================
+STATUS ATUAL DO PROJETO
+================================================================================
+
+Segurança Geral: 🔴 CRÍTICA (Requer implementação)
+
+Ameaças Identificadas:
+- Senhas em localStorage (texto plano)
+- Sem autenticação do lado do servidor
+- Sem CSRF protection
+- H2 Console exposto
+- Headers de segurança faltando
+- Sem rate limiting
+
+Tempo Estimado para Implementar:
+- FASE 1 (Auth): 1-2 semanas
+- FASE 2 (Headers): 3-5 dias
+- FASE 3 (Rate Limiting): 3-5 dias
+- FASE 4 (Validação): 3-5 dias
+- FASE 5 (Testes): 1 semana
+- FASE 6 (Audit): 1 semana
+
+TOTAL: 3-4 semanas
+
+================================================================================
+RECOMENDAÇÃO FINAL
+================================================================================
+
+✅ COMECE AGORA COM SPRING SECURITY
+
+Os passos básicos para começar:
+1. Adicionar dependência spring-boot-starter-security
+2. Criar SecurityConfig.java (20 linhas de código)
+3. Criar CustomUserDetailsService (30 linhas de código)
+4. Criar Usuario entity com validações
+5. Tudo pode ser feito em 1-2 dias
+
+Depois, incremente a segurança gradualmente com:
+- Rate limiting
+- Audit logging
+- 2FA
+- Etc.
+
+O importante é COMEÇAR AGORA!
+
+================================================================================
+

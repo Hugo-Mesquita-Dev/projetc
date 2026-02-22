@@ -1,0 +1,81 @@
+================================================================================
+                PLANO DE SEGURANÇA - LOVE MAKEUP BL
+           OWASP Top 10:2025 + Melhores Práticas Spring Boot 4
+================================================================================
+
+1. RESUMO DAS PRINCIPAIS AMEAÇAS OWASP TOP 10:2025
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ AMEAÇA                        │ RISCO    │ PROBABILIDADE │ MITIGAÇÃO        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ A01: Broken Access Control    │ CRÍTICO  │ ALTA          │ RBAC + @PreAuth  │
+│ A02: Security Misconfiguration│ CRÍTICO  │ ALTA          │ Profiles + Sec   │
+│ A03: Supply Chain Failures    │ ALTO     │ MÉDIA         │ Dep-Check Maven  │
+│ A04: Injection                │ CRÍTICO  │ BAIXA*        │ JPA (prepared)   │
+│ A05: Insecure Design          │ CRÍTICO  │ MÉDIA         │ SDL + Rate limit │
+│ A06: Outdated Components      │ ALTO     │ ALTA          │ Dependabot       │
+│ A07: Auth Failures            │ CRÍTICO  │ MÉDIA         │ BCrypt + 2FA     │
+│ A08: Integrity Failures       │ MÉDIO    │ BAIXA         │ SRI (CDN)        │
+│ A09: Logging & Monitoring     │ ALTO     │ ALTA          │ Auditoria logs   │
+│ A10: SSRF                     │ MÉDIO    │ BAIXA         │ Whitelist URLs   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+* Injection é BAIXA porque usamos JPA com prepared statements
+
+================================================================================
+2. ANÁLISE ESPECÍFICA PARA LOVE MAKEUP BL
+================================================================================
+
+Contexto:
+- E-commerce de maquiagem com cadastro de clientes
+- Autenticação via login/senha (localStorage atualmente - INSEGURO!)
+- Carrinho de compras com localStorage
+- Formulário de contato com email
+- Integração com WhatsApp (webhook potencial)
+- Dados de clientes (nome, email, telefone, ENDEREÇO)
+
+RISCOS CRÍTICOS IDENTIFICADOS:
+
+1. ⚠️ AUTENTICAÇÃO NÃO-SEGURA
+   - Atualmente: senhas salvas em texto plano em localStorage
+   - Risco: A07 - Authentication Failures
+   - Solução: Spring Security com BCrypt/Argon2
+
+2. ⚠️ FALTA DE AUTORIZAÇÃO
+   - Não há verificação de permissões (cliente vê dados de outro?)
+   - Risco: A01 - Broken Access Control
+   - Solução: RBAC (ROLE_CUSTOMER, ROLE_ADMIN) + @PreAuthorize
+
+3. ⚠️ CSRF NÃO IMPLEMENTADO
+   - Forms estão vulneráveis a CSRF
+   - Risco: A04 - Injection / A05 - Insecure Design
+   - Solução: Spring Security CSRF + Thymeleaf tokens
+
+4. ⚠️ XSS POTENCIAL
+   - Dados de usuários em localStorage + exibidos na página
+   - Risco: A04 - Injection (Stored XSS)
+   - Solução: Validação de input + Escape de output (Thymeleaf)
+
+5. ⚠️ EMAIL NÃO VALIDADO
+   - Formulário de contato sem Rate Limiting
+   - Risco: A05 - Insecure Design (spam/DOS)
+   - Solução: Rate limiting + Validação de email
+
+6. ⚠️ DEPENDÊNCIAS NÃO AUDITADAS
+   - Sem OWASP Dependency-Check
+   - Risco: A03 - Supply Chain + A06 - Outdated Components
+   - Solução: Maven plugin + Dependabot
+
+7. ⚠️ HEADERS DE SEGURANÇA FALTANDO
+   - Sem HSTS, CSP, X-Frame-Options
+   - Risco: A02 - Security Misconfiguration
+   - Solução: Spring Security + SecurityHeaders config
+
+8. ⚠️ H2 CONSOLE EM PRODUÇÃO
+   - H2 console exposto (acesso direto ao BD)
+   - Risco: A02 - Security Misconfiguration
+   - Solução: Desabilitar em produção
+
+================================================================================
+
