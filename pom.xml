@@ -112,6 +112,13 @@
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Bucket4j para rate limiting (A05) -->
+		<dependency>
+			<groupId>com.github.vladimir-bukhtoyarov</groupId>
+			<artifactId>bucket4j-core</artifactId>
+			<version>8.6.0</version>
+		</dependency>
 	</dependencies>
 
 
