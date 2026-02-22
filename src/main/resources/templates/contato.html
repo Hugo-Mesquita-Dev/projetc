@@ -122,12 +122,33 @@
             const assunto = document.getElementById('assunto').value;
             const mensagem = document.getElementById('mensagem').value;
 
-            const text = `Olá! Recebi uma mensagem de contato:%0A%0A📝 Nome: ${nome}%0A📧 E-mail: ${email}%0A📱 Telefone: ${telefone}%0A📌 Assunto: ${assunto}%0A💬 Mensagem: ${mensagem}`;
-
-            window.open(`https://wa.me/5598991237578?text=${text}`, '_blank');
-
-            document.querySelector('form').reset();
-            alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+            // Enviar dados para o backend
+            fetch('/api/contato', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome: nome,
+                    email: email,
+                    telefone: telefone,
+                    assunto: assunto,
+                    mensagem: mensagem
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.sucesso) {
+                    alert('✅ Mensagem enviada com sucesso!\n\nEu entraremos em contato em breve para o email:\n' + email);
+                    document.querySelector('form').reset();
+                } else {
+                    alert('❌ Erro ao enviar mensagem. Tente novamente!');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('❌ Erro na conexão. Tente novamente!');
+            });
         }
     </script>
 </body>
