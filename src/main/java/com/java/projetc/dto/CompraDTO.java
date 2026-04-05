@@ -12,6 +12,9 @@ public class CompraDTO {
     private String cliente;
     private String email;
     private String telefone;
+    private String endereco;
+    private String cidade;
+    private String cep;
     private Long produtoId;
     private String produtoNome;
     private Integer quantidade;
@@ -34,6 +37,18 @@ public class CompraDTO {
 
     public String getTelefone() {
         return telefone;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public String getCep() {
+        return cep;
     }
 
     public Long getProdutoId() {
@@ -75,6 +90,18 @@ public class CompraDTO {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
     public void setProdutoId(Long produtoId) {

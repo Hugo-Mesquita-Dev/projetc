@@ -3,22 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil - Love Makeup BL</title>
+    <title>Meu Perfil - Love Makeup BL</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .profile-wrapper {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tabs-navigation {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #eee;
+            flex-wrap: wrap;
+        }
+
+        .tab-link {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-weight: 600;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .tab-link:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-link.active {
+            color: var(--primary-color);
+        }
+
+        .tab-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: var(--dark-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-save {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            align-self: flex-start;
+            margin-top: 1rem;
+        }
+
+        .btn-save:hover {
+            background: #b8366a;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+            display: none;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .tabs-navigation {
+                flex-direction: column;
+                gap: 0;
+                border-bottom: none;
+            }
+
+            .tab-link {
+                border-bottom: 2px solid #eee;
+                margin-bottom: 0;
+            }
+
+            .tab-link.active::after {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-top">
-            <a href="/" class="logo"><i class="fas fa-heart"></i> Love Makeup BL</a>
+            <a href="/" class="logo">
+                <i class="fas fa-heart"></i> Love Makeup BL
+            </a>
             <div class="header-actions">
                 <a href="/carrinho" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" style="display: none;">0</span>
                 </a>
-                <a href="/perfil" class="profile-icon"><i class="fas fa-user"></i></a>
+                <a href="/perfil" class="profile-icon">
+                    <i class="fas fa-user"></i>
+                </a>
             </div>
         </div>
         <nav>
@@ -32,102 +253,182 @@
     </header>
 
     <main>
-        <div class="profile-container">
-            <div class="profile-card">
-                <h2 style="text-align: center; margin-bottom: 2rem;">
-                    <i class="fas fa-user-circle" style="color: #d4477d;"></i> Meu Perfil
-                </h2>
+        <div class="profile-wrapper">
+            <!-- CABEÇALHO -->
+            <div class="profile-header">
+                <h1><i class="fas fa-user-circle"></i> Meu Perfil</h1>
+                <p style="color: #666;">Gerencie suas informações e pedidos</p>
+            </div>
 
-                <div class="auth-tabs">
-                    <button class="auth-tab-btn active" onclick="switchAuthTab(event, 'login-form')">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </button>
-                    <button class="auth-tab-btn" onclick="switchAuthTab(event, 'register-form')">
-                        <i class="fas fa-user-plus"></i> Criar Conta
-                    </button>
-                </div>
+            <!-- NAVEGAÇÃO DE ABAS -->
+            <div class="tabs-navigation">
+                <button class="tab-link active" onclick="switchTab(event, 'dados')">
+                    <i class="fas fa-user"></i> Meus Dados
+                </button>
+                <button class="tab-link" onclick="switchTab(event, 'endereco')">
+                    <i class="fas fa-map-marker-alt"></i> Endereço
+                </button>
+                <button class="tab-link" onclick="switchTab(event, 'preferencias')">
+                    <i class="fas fa-cog"></i> Preferências
+                </button>
+            </div>
 
-                <!-- FORM LOGIN -->
-                <div id="login-form" class="auth-form active">
-                    <h3 style="color: #d4477d; margin-bottom: 1.5rem; text-align: center;">Faça seu Login</h3>
-                    <form onsubmit="realizarLogin(event)">
-                        <div class="form-group">
-                            <label for="login-email">E‑mail</label>
-                            <input type="email" id="login-email" name="email" required>
+            <!-- TAB: MEUS DADOS -->
+            <div id="dados" class="tab-content active">
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-id-card"></i> Informações Pessoais
+                    </h2>
+
+                    <div class="alert alert-success" id="successMessage">
+                        <i class="fas fa-check-circle"></i> Dados atualizados com sucesso!
+                    </div>
+
+                    <form id="profileForm" onsubmit="savePerfil(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="nome">Nome Completo *</label>
+                                <input type="text" id="nome" required placeholder="Seu nome completo">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" required placeholder="seu@email.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telefone">Telefone *</label>
+                                <input type="tel" id="telefone" required placeholder="(98) 9999-9999">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dataNascimento">Data de Nascimento</label>
+                                <input type="date" id="dataNascimento">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cpf">CPF</label>
+                                <input type="text" id="cpf" placeholder="000.000.000-00">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="genero">Gênero</label>
+                                <select id="genero" style="padding: 0.75rem; border: 2px solid #ddd; border-radius: 5px;">
+                                    <option value="">Selecione...</option>
+                                    <option value="feminino">Feminino</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="login-senha">Senha</label>
-                            <input type="password" id="login-senha" name="senha" required>
-                        </div>
-
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-sign-in-alt"></i> Entrar
+                        <button type="submit" class="btn-save">
+                            <i class="fas fa-save"></i> Salvar Alterações
                         </button>
                     </form>
-
-                    <p style="text-align: center; margin-top: 1rem; color: #666;">
-                        Não tem uma conta? <a href="#" onclick="switchAuthTab(event, 'register-form'); event.preventDefault();"
-                                             style="color: #d4477d; font-weight: bold;">Crie agora</a>
-                    </p>
                 </div>
+            </div>
 
-                <!-- FORM REGISTRO -->
-                <div id="register-form" class="auth-form">
-                    <h3 style="color: #d4477d; margin-bottom: 1.5rem; text-align: center;">Criar Nova Conta</h3>
-                    <form onsubmit="realizarRegistro(event)">
-                        <!-- CSRF TOKEN (A04: CSRF Protection) -->
-                        <input type="hidden"
-                               th:name="${_csrf.parameterName}"
-                               th:value="${_csrf.token}"/>
+            <!-- TAB: ENDEREÇO -->
+            <div id="endereco" class="tab-content">
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-home"></i> Endereço de Entrega
+                    </h2>
 
-                        <div class="form-group">
-                            <label for="register-nome">Nome Completo *</label>
-                            <input type="text" id="register-nome" name="nome" required>
+                    <form id="addressForm" onsubmit="saveEndereco(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="rua">Rua *</label>
+                                <input type="text" id="rua" required placeholder="Nome da rua">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="numero">Número *</label>
+                                <input type="text" id="numero" required placeholder="123">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="complemento">Complemento</label>
+                                <input type="text" id="complemento" placeholder="Apto, sala, etc.">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bairro">Bairro *</label>
+                                <input type="text" id="bairro" required placeholder="Centro">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cidade">Cidade *</label>
+                                <input type="text" id="cidade" required placeholder="Belágua">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="estado">Estado *</label>
+                                <input type="text" id="estado" required placeholder="MA">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cep">CEP *</label>
+                                <input type="text" id="cep" required placeholder="00000-000">
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="register-email">E‑mail *</label>
-                            <input type="email" id="register-email" name="email" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="register-telefone">Telefone</label>
-                            <input type="tel" id="register-telefone" name="telefone" placeholder="(98) 99123-7578">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="register-endereco">Endereço de Entrega</label>
-                            <input type="text" id="register-endereco" name="endereco" placeholder="Rua, número, bairro, cidade">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="register-senha">Senha *</label>
-                            <input type="password" id="register-senha" name="senha" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="register-confirmaSenha">Confirmar Senha *</label>
-                            <input type="password" id="register-confirmaSenha" name="confirmaSenha" required>
-                        </div>
-
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-user-plus"></i> Criar Conta
+                        <button type="submit" class="btn-save">
+                            <i class="fas fa-save"></i> Salvar Endereço
                         </button>
                     </form>
-
-                    <p style="text-align: center; margin-top: 1rem; color: #666;">
-                        Já tem uma conta? <a href="#" onclick="switchAuthTab(event, 'login-form'); event.preventDefault();"
-                                            style="color: #d4477d; font-weight: bold;">Faça login</a>
-                    </p>
                 </div>
+            </div>
 
-                <!-- USER INFO -->
-                <div class="user-info">
-                    <h3 style="color: #d4477d; margin-bottom: 1.5rem; text-align: center;">
-                        <i class="fas fa-user-check"></i> Dados da Conta
-                    </h3>
-                    <!-- Preenchido pelo JavaScript -->
+            <!-- TAB: PREFERÊNCIAS -->
+            <div id="preferencias" class="tab-content">
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-sliders-h"></i> Preferências
+                    </h2>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" id="newsletter" checked>
+                                <span style="color: var(--dark-color); font-weight: 600;">
+                                    Receber novidades e ofertas por email
+                                </span>
+                            </label>
+                            <p style="color: #666; margin-left: 1.75rem; font-size: 0.9rem;">
+                                Fique por dentro das últimas promoções e lançamentos
+                            </p>
+                        </div>
+
+                        <div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" id="sms" checked>
+                                <span style="color: var(--dark-color); font-weight: 600;">
+                                    Receber notificações por SMS
+                                </span>
+                            </label>
+                            <p style="color: #666; margin-left: 1.75rem; font-size: 0.9rem;">
+                                Atualizações sobre seus pedidos e ofertas exclusivas
+                            </p>
+                        </div>
+
+                        <div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" id="whatsapp" checked>
+                                <span style="color: var(--dark-color); font-weight: 600;">
+                                    Contato via WhatsApp
+                                </span>
+                            </label>
+                            <p style="color: #666; margin-left: 1.75rem; font-size: 0.9rem;">
+                                Converse conosco no WhatsApp quando necessário
+                            </p>
+                        </div>
+
+                        <button type="button" class="btn-save" onclick="savePreferencias()" style="align-self: flex-start;">
+                            <i class="fas fa-save"></i> Salvar Preferências
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -136,145 +437,98 @@
     <footer>
         <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>
         <p>Rua Nova, nº 4 - Centro</p>
-        <p><a href="https://wa.me/5598991237578" target="_blank">WhatsApp: (98) 99123-7578</a></p>
+        <p><a href="https://wa.me/5598984067365" target="_blank">WhatsApp: (98) 98406-7365</a></p>
     </footer>
 
     <script th:src="@{/js/app.js}"></script>
     <script>
-        function switchAuthTab(evt, formId) {
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            document.querySelectorAll('.auth-tab-btn').forEach(b => b.classList.remove('active'));
-
-            document.getElementById(formId).classList.add('active');
-            evt.target.closest('.auth-tab-btn').classList.add('active');
+        function switchTab(event, tabName) {
+            event.preventDefault();
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.closest('.tab-link').classList.add('active');
         }
 
-        function realizarRegistro(event) {
+        function loadPerfil() {
+            const user = JSON.parse(localStorage.getItem('user')) || {};
+            document.getElementById('nome').value = user.nome || '';
+            document.getElementById('email').value = user.email || '';
+            document.getElementById('telefone').value = user.telefone || '';
+            document.getElementById('dataNascimento').value = user.dataNascimento || '';
+            document.getElementById('cpf').value = user.cpf || '';
+            document.getElementById('genero').value = user.genero || '';
+        }
+
+        function savePerfil(event) {
             event.preventDefault();
-
-            const nome = document.getElementById('register-nome').value.trim();
-            const email = document.getElementById('register-email').value.trim();
-            const telefone = document.getElementById('register-telefone').value.trim();
-            const endereco = document.getElementById('register-endereco').value.trim();
-            const senha = document.getElementById('register-senha').value;
-            const confirmaSenha = document.getElementById('register-confirmaSenha').value;
-
-            if (!nome || !email || !senha) {
-                alert('Preencha todos os campos obrigatórios!');
-                return;
-            }
-
-            if (senha !== confirmaSenha) {
-                alert('As senhas não conferem!');
-                return;
-            }
-
-            if (senha.length < 6) {
-                alert('A senha deve ter pelo menos 6 caracteres!');
-                return;
-            }
-
             const user = {
-                id: Date.now(),
-                nome: nome,
-                email: email,
-                telefone: telefone,
-                endereco: endereco
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                dataNascimento: document.getElementById('dataNascimento').value,
+                cpf: document.getElementById('cpf').value,
+                genero: document.getElementById('genero').value
             };
-
             localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('userSenha', senha);
-
-            alert('Conta criada com sucesso! Bem‑vinda ao Love Makeup BL! 💄');
-
-            document.querySelector('form').reset();
-            setTimeout(() => {
-                carregarPerfilUsuario();
-            }, 500);
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            setTimeout(() => { successMsg.style.display = 'none'; }, 3000);
         }
 
-        function realizarLogin(event) {
+        function loadEndereco() {
+            const address = JSON.parse(localStorage.getItem('address')) || {};
+            document.getElementById('rua').value = address.rua || '';
+            document.getElementById('numero').value = address.numero || '';
+            document.getElementById('complemento').value = address.complemento || '';
+            document.getElementById('bairro').value = address.bairro || '';
+            document.getElementById('cidade').value = address.cidade || 'Belágua';
+            document.getElementById('estado').value = address.estado || 'MA';
+            document.getElementById('cep').value = address.cep || '';
+        }
+
+        function saveEndereco(event) {
             event.preventDefault();
-
-            const email = document.getElementById('login-email').value.trim();
-            const senha = document.getElementById('login-senha').value;
-
-            if (!email || !senha) {
-                alert('Preencha todos os campos!');
-                return;
-            }
-
-            const user = JSON.parse(localStorage.getItem('user'));
-            const senhaArmazenada = localStorage.getItem('userSenha');
-
-            if (user && user.email === email && senhaArmazenada === senha) {
-                alert('Login realizado com sucesso! Bem‑vinda! 💄');
-                setTimeout(() => {
-                    carregarPerfilUsuario();
-                }, 500);
-            } else {
-                alert('E‑mail ou senha incorretos!');
-            }
+            const address = {
+                rua: document.getElementById('rua').value,
+                numero: document.getElementById('numero').value,
+                complemento: document.getElementById('complemento').value,
+                bairro: document.getElementById('bairro').value,
+                cidade: document.getElementById('cidade').value,
+                estado: document.getElementById('estado').value,
+                cep: document.getElementById('cep').value,
+                endereco: document.getElementById('rua').value + ', ' + document.getElementById('numero').value
+            };
+            localStorage.setItem('address', JSON.stringify(address));
+            alert('Endereço salvo com sucesso!');
         }
 
-        function carregarPerfilUsuario() {
-            const user = JSON.parse(localStorage.getItem('user'));
-
-            if (!user) {
-                document.querySelector('.user-info').classList.remove('active');
-                document.getElementById('login-form').classList.add('active');
-                return;
-            }
-
-            const userInfoDiv = document.querySelector('.user-info');
-            userInfoDiv.innerHTML = `
-                <div class="user-info-item">
-                    <span class="user-info-label"><i class="fas fa-user"></i> Nome:</span>
-                    <span class="user-info-value">${user.nome}</span>
-                </div>
-                <div class="user-info-item">
-                    <span class="user-info-label"><i class="fas fa-envelope"></i> E‑mail:</span>
-                    <span class="user-info-value">${user.email}</span>
-                </div>
-                <div class="user-info-item">
-                    <span class="user-info-label"><i class="fas fa-phone"></i> Telefone:</span>
-                    <span class="user-info-value">${user.telefone || 'Não informado'}</span>
-                </div>
-                <div class="user-info-item">
-                    <span class="user-info-label"><i class="fas fa-map-marker-alt"></i> Endereço:</span>
-                    <span class="user-info-value">${user.endereco || 'Não informado'}</span>
-                </div>
-                <div class="user-info-item" style="text-align: center; padding: 1rem; background: #f0f0f0; border-radius: 5px;">
-                    <p style="margin-bottom: 0.5rem; color: #666;">Membro desde: ${new Date(user.id).toLocaleDateString('pt-BR')}</p>
-                </div>
-                <button class="submit-btn" style="margin-top: 1rem;" onclick="sairConta()">
-                    <i class="fas fa-sign-out-alt"></i> Sair da Conta
-                </button>
-            `;
-
-            userInfoDiv.classList.add('active');
-            document.getElementById('login-form').classList.remove('active');
-            document.getElementById('register-form').classList.remove('active');
+        function loadPreferencias() {
+            const prefs = JSON.parse(localStorage.getItem('preferences')) || {
+                newsletter: true,
+                sms: true,
+                whatsapp: true
+            };
+            document.getElementById('newsletter').checked = prefs.newsletter;
+            document.getElementById('sms').checked = prefs.sms;
+            document.getElementById('whatsapp').checked = prefs.whatsapp;
         }
 
-        function sairConta() {
-            if (confirm('Tem certeza que deseja sair?')) {
-                localStorage.removeItem('user');
-                localStorage.removeItem('userSenha');
-
-                document.querySelector('.user-info').classList.remove('active');
-                document.getElementById('login-form').classList.add('active');
-                document.getElementById('login-email').value = '';
-                document.getElementById('login-senha').value = '';
-
-                alert('Você foi desconectado!');
-            }
+        function savePreferencias() {
+            const preferences = {
+                newsletter: document.getElementById('newsletter').checked,
+                sms: document.getElementById('sms').checked,
+                whatsapp: document.getElementById('whatsapp').checked
+            };
+            localStorage.setItem('preferences', JSON.stringify(preferences));
+            alert('Preferências salvas com sucesso!');
         }
 
-        // Carregar perfil ao abrir a página
         document.addEventListener('DOMContentLoaded', function() {
+            loadPerfil();
+            loadEndereco();
+            loadPreferencias();
             cartManager.updateCartCount();
-            carregarPerfilUsuario();
         });
     </script>
 </body>

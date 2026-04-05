@@ -20,6 +20,7 @@ public class CompraController {
 
     // POST - Realizar nova compra
     @PostMapping
+    @RequestMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<CompraDTO> realizarCompra(@RequestBody CompraDTO compraDTO) {
         Optional<CompraDTO> compra = compraService.realizarCompra(compraDTO);
 

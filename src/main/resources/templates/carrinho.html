@@ -6,19 +6,230 @@
     <title>Carrinho - Love Makeup BL</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .cart-wrapper {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .cart-items-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            align-items: flex-start;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #f9f9f9;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .quantity-control button {
+            background: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .quantity-control button:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .quantity-control input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.25rem;
+        }
+
+        .cart-item-remove {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .cart-item-remove:hover {
+            background: #ff5252;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-cart i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .cart-summary-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .address-form {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: var(--dark-color);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-checkout {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-checkout:hover {
+            background: #b8366a;
+        }
+
+        .btn-checkout:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .checkout-note {
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        @media (max-width: 768px) {
+            .cart-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-top">
-            <a href="/" class="logo"><i class="fas fa-heart"></i> Love Makeup BL</a>
+            <a href="/" class="logo">
+                <i class="fas fa-heart"></i> Love Makeup BL
+            </a>
             <div class="header-actions">
                 <a href="/carrinho" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" style="display: none;">0</span>
                 </a>
-                <a href="/perfil" class="profile-icon"><i class="fas fa-user"></i></a>
+                <a href="/perfil" class="profile-icon">
+                    <i class="fas fa-user"></i>
+                </a>
             </div>
         </div>
         <nav>
@@ -32,21 +243,65 @@
     </header>
 
     <main>
-        <div class="container">
-            <h1 style="color: #d4477d; margin-bottom: 2rem;">Seu Carrinho</h1>
+        <div class="cart-wrapper">
+            <!-- ITENS DO CARRINHO -->
+            <div class="cart-items-section">
+                <h1 style="color: var(--primary-color); margin-bottom: 1.5rem;">
+                    <i class="fas fa-shopping-cart"></i> Seu Carrinho
+                </h1>
 
-            <div class="cart-container">
-                <div class="cart-items">
-                    <!-- Conteúdo do carrinho será preenchido pelo JavaScript -->
-                </div>
-
-                <div class="cart-summary" style="display: none;">
-                    <!-- Resumo será preenchido pelo JavaScript -->
-                </div>
+                <div id="cartItems"></div>
             </div>
 
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="/produtos" class="cta-button">
+            <!-- RESUMO E CHECKOUT -->
+            <div class="cart-summary-section">
+                <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">
+                    <i class="fas fa-receipt"></i> Resumo
+                </h2>
+
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R$ 0,00</span>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total:</span><br>
+                    <span id="totalAmount">R$ 0,00</span>
+                </div>
+
+                <!-- FORMULÁRIO DE ENDEREÇO -->
+                <div class="address-form">
+                    <h3 style="color: var(--primary-color); font-size: 1rem; margin-bottom: 1rem;">
+                        <i class="fas fa-map-marker-alt"></i> Endereço de Entrega
+                    </h3>
+
+                    <div class="form-group">
+                        <label>Endereço *</label>
+                        <input type="text" id="address" placeholder="Rua, número, complemento">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cidade *</label>
+                        <input type="text" id="city" placeholder="Belágua">
+                    </div>
+
+                    <div class="form-group">
+                        <label>CEP *</label>
+                        <input type="text" id="cep" placeholder="00000-000">
+                    </div>
+                </div>
+
+                <!-- BOTÃO CHECKOUT -->
+                <button class="btn-checkout" onclick="checkout()" id="checkoutBtn">
+                    <i class="fas fa-whatsapp"></i> Finalizar Pedido via WhatsApp
+                </button>
+
+                <div class="checkout-note">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Ótima novidade!</strong> Você será redirecionado para o WhatsApp com seu pedido já preenchido. Envie a mensagem para confirmar!
+                </div>
+
+                <a href="/produtos" style="display: block; text-align: center; margin-top: 1rem; color: var(--primary-color); text-decoration: none; font-weight: 600;">
                     <i class="fas fa-arrow-left"></i> Continuar Comprando
                 </a>
             </div>
@@ -56,156 +311,111 @@
     <footer>
         <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>
         <p>Rua Nova, nº 4 - Centro</p>
-        <p><a href="https://wa.me/5598991237578" target="_blank">WhatsApp: (98) 99123-7578</a></p>
+        <p><a href="https://wa.me/5598984067365" target="_blank">WhatsApp: (98) 98406-7365</a></p>
     </footer>
 
     <script th:src="@{/js/app.js}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            renderCarrinho();
-        });
+        function renderCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
 
-        function renderCarrinho() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const cartItemsDiv = document.querySelector('.cart-items');
-            const cartSummaryDiv = document.querySelector('.cart-summary');
-
-            if (cart.length === 0) {
-                cartItemsDiv.innerHTML = `
+            if (cartManager.cart.length === 0) {
+                cartItemsContainer.innerHTML = `
                     <div class="empty-cart">
-                        <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i>
-                        <p>Seu carrinho está vazio</p>
-                        <a href="/produtos" class="cta-button" style="margin-top: 1rem;">Explorar Produtos</a>
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Seu carrinho está vazio</h3>
+                        <p>Explore nossa coleção e adicione produtos!</p>
+                        <a href="/produtos" class="cta-button" style="display: inline-block; margin-top: 1rem;">
+                            <i class="fas fa-arrow-right"></i> Ver Produtos
+                        </a>
                     </div>
                 `;
-                cartSummaryDiv.style.display = 'none';
+                document.getElementById('checkoutBtn').disabled = true;
                 return;
             }
 
-            cartSummaryDiv.style.display = 'block';
+            document.getElementById('checkoutBtn').disabled = false;
 
-            cartItemsDiv.innerHTML = cart.map(item => `
+            cartItemsContainer.innerHTML = cartManager.cart.map(item => `
                 <div class="cart-item">
                     <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                     <div class="cart-item-details">
                         <div class="cart-item-name">${item.name}</div>
                         <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
-                        <div class="cart-item-actions">
-                            <button onclick="updateCartQty(${item.id}, ${item.quantity - 1})">-</button>
-                            <input type="number" value="${item.quantity}" style="width: 50px; text-align: center; padding: 0.4rem;"
-                                   onchange="updateCartQty(${item.id}, this.value)" min="1">
-                            <button onclick="updateCartQty(${item.id}, ${item.quantity + 1})">+</button>
-                            <button onclick="removeFromCart(${item.id})" style="background: #ff6b6b; color: white;">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                        <div class="quantity-control">
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                            <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${item.id}, this.value)">
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
                         </div>
+                    </div>
+                    <div>
+                        <strong style="color: var(--primary-color);">R$ ${(item.price * item.quantity).toFixed(2)}</strong>
+                        <br>
+                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             `).join('');
 
-            updateCartSummary();
+            updateSummary();
         }
 
-        function updateCartQty(id, qty) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const item = cart.find(i => i.id === id);
-            if (item) {
-                item.quantity = Math.max(1, parseInt(qty));
-                localStorage.setItem('cart', JSON.stringify(cart));
-                renderCarrinho();
+        function updateQuantity(productId, newQuantity) {
+            newQuantity = parseInt(newQuantity);
+            if (newQuantity > 0) {
+                cartManager.updateQuantity(productId, newQuantity);
+                renderCart();
             }
         }
 
-        function removeFromCart(id) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart = cart.filter(item => item.id !== id);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            cartManager.updateCartCount();
-            renderCarrinho();
+        function removeFromCart(productId) {
+            if (confirm('Deseja remover este produto?')) {
+                cartManager.removeFromCart(productId);
+                renderCart();
+            }
         }
 
-        function updateCartSummary() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-            const shipping = subtotal > 100 ? 0 : 10;
-            const total = subtotal + shipping;
-
-            document.querySelector('.cart-summary').innerHTML = `
-                <div class="summary-row">
-                    <span>Subtotal:</span>
-                    <span>R$ ${subtotal.toFixed(2)}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Frete:</span>
-                    <span>${shipping === 0 ? 'GRÁTIS' : 'R$ ' + shipping.toFixed(2)}</span>
-                </div>
-                <div class="summary-row total">
-                    <span>Total:</span>
-                    <span>R$ ${total.toFixed(2)}</span>
-                </div>
-                <button class="checkout-btn" onclick="finalizarCompra()">
-                    <i class="fab fa-whatsapp"></i> Finalizar no WhatsApp
-                </button>
-                <button class="checkout-btn" style="background: #999; margin-top: 0.5rem;" onclick="limparCarrinho()">
-                    <i class="fas fa-trash"></i> Limpar Carrinho
-                </button>
-            `;
+        function updateSummary() {
+            const subtotal = cartManager.getTotal();
+            document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2)}`;
+            document.getElementById('totalAmount').textContent = `R$ ${subtotal.toFixed(2)}`;
         }
 
-        function finalizarCompra() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            if (cart.length === 0) {
-                alert('Carrinho vazio!');
+        function checkout() {
+            const address = document.getElementById('address').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const cep = document.getElementById('cep').value.trim();
+
+            if (!address || !city || !cep) {
+                alert('Por favor, preencha todos os campos de endereço!');
                 return;
             }
 
-            let endereco = '';
-            const user = JSON.parse(localStorage.getItem('user'));
+            // Salvar endereço
+            const addressData = { endereco: address, cidade: city, cep };
+            cartManager.saveAddress(addressData);
 
-            // Se usuário não tem endereço cadastrado, solicita
-            if (!user || !user.endereco) {
-                endereco = prompt('Por favor, informe seu endereço de entrega:');
-                if (!endereco) {
-                    alert('Endereço é necessário para finalizar a compra!');
-                    return;
-                }
+            // Obter usuário logado (simulado)
+            const user = {
+                nome: 'Cliente',
+                email: 'cliente@email.com',
+                telefone: '(98) 99999-9999'
+            };
 
-                // Se usuário existe, atualiza com endereço
-                if (user) {
-                    user.endereco = endereco;
-                    localStorage.setItem('user', JSON.stringify(user));
-                }
-            } else {
-                endereco = user.endereco;
-            }
+            // Checkout via WhatsApp
+            cartManager.checkout(user);
 
-            const items = cart.map(item =>
-                `📦 ${item.name} - Qty: ${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}`
-            ).join('%0A');
+            // Limpar carrinho
+            cartManager.clearCart();
+            renderCart();
+        }
 
-            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-            const shipping = subtotal > 100 ? 0 : 10;
-            const total = (subtotal + shipping).toFixed(2);
-
-            const nomeCliente = user ? `${user.nome}` : 'Cliente';
-            const telefone = user ? user.telefone : 'Não informado';
-
-            const message = `Olá Love Makeup BL! 💄%0A%0A*NOVO PEDIDO*%0A%0A👤 Cliente: ${nomeCliente}%0A📱 Telefone: ${telefone}%0A📍 Endereço: ${endereco}%0A%0A*PRODUTOS:*%0A${items}%0A%0A💳 Subtotal: R$ ${subtotal.toFixed(2)}%0A🚚 Frete: ${shipping === 0 ? 'GRÁTIS' : 'R$ ' + shipping.toFixed(2)}%0A💰 *Total: R$ ${total}*`;
-
-            window.open(`https://wa.me/5598991237578?text=${message}`, '_blank');
-
-            localStorage.removeItem('cart');
+        // Carregar carrinho ao abrir a página
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCart();
             cartManager.updateCartCount();
-            renderCarrinho();
-        }
-
-        function limparCarrinho() {
-            if (confirm('Tem certeza que deseja limpar o carrinho?')) {
-                localStorage.removeItem('cart');
-                cartManager.updateCartCount();
-                renderCarrinho();
-            }
-        }
+        });
     </script>
 </body>
 </html>

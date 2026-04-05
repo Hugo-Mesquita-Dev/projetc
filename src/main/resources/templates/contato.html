@@ -6,19 +6,231 @@
     <title>Contato - Love Makeup BL</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .contact-wrapper {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .contact-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(212, 71, 125, 0.2);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-card h3 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+
+        .form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .form-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: var(--dark-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(212, 71, 125, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+            grid-column: 1 / -1;
+        }
+
+        .btn-send {
+            grid-column: 1 / -1;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-send:hover {
+            background: #b8366a;
+        }
+
+        .btn-send:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #28a745;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #dc3545;
+            display: none;
+        }
+
+        .info-section {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .info-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            min-width: 30px;
+        }
+
+        .info-item p {
+            color: #666;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-top">
-            <a href="/" class="logo"><i class="fas fa-heart"></i> Love Makeup BL</a>
+            <a href="/" class="logo">
+                <i class="fas fa-heart"></i> Love Makeup BL
+            </a>
             <div class="header-actions">
                 <a href="/carrinho" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" style="display: none;">0</span>
                 </a>
-                <a href="/perfil" class="profile-icon"><i class="fas fa-user"></i></a>
+                <a href="/perfil" class="profile-icon">
+                    <i class="fas fa-user"></i>
+                </a>
             </div>
         </div>
         <nav>
@@ -26,81 +238,133 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/produtos">Produtos</a></li>
                 <li><a href="/sobre">Quem Somos</a></li>
-                <li><a href="/contato">Contato</a></li>
+                <li><a href="/contato" class="active">Contato</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <div class="contact-container">
-            <h1 style="color: #d4477d; margin-bottom: 1rem; text-align: center;">Entre em Contato</h1>
-            <p style="text-align: center; color: #666; margin-bottom: 2rem;">
-                Tire suas dúvidas e converse conosco pelo WhatsApp!
-            </p>
+        <div class="contact-wrapper">
+            <!-- CABEÇALHO -->
+            <div class="contact-header">
+                <h1><i class="fas fa-comments"></i> Entre em Contato</h1>
+                <p>Estamos sempre aqui para ajudar! Escolha a forma de contato que preferir.</p>
+            </div>
 
+            <!-- FORMAS DE CONTATO -->
             <div class="contact-grid">
+                <!-- WhatsApp -->
                 <div class="contact-card">
                     <div class="contact-icon">
                         <i class="fab fa-whatsapp"></i>
                     </div>
                     <h3>WhatsApp</h3>
-                    <p>
-                        <a href="https://wa.me/5598991237578" target="_blank" style="color: #d4477d; text-decoration: none;">
-                            (98) 99123-7578
-                        </a>
+                    <p>Chat direto com nossa equipe</p>
+                    <a href="https://wa.me/5598984067365" target="_blank">
+                        <i class="fas fa-phone"></i> (98) 98406-7365
+                    </a>
+                    <p style="font-size: 0.85rem; color: #999; margin-top: 1rem;">
+                        Resposta rápida durante o horário comercial
                     </p>
-                    <p style="font-size: 0.9rem; color: #999;">Atendimento rápido e personalizado</p>
                 </div>
 
+                <!-- Email -->
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email</h3>
+                    <p>Envie sua mensagem por email</p>
+                    <a href="mailto:hugomesquitadev@gmail.com">
+                        <i class="fas fa-at"></i> hugomesquitadev@gmail.com
+                    </a>
+                    <p style="font-size: 0.85rem; color: #999; margin-top: 1rem;">
+                        Resposta em até 24 horas
+                    </p>
+                </div>
+
+                <!-- Endereço -->
                 <div class="contact-card">
                     <div class="contact-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <h3>Localização</h3>
-                    <p>Rua Nova, nº 4 - Centro</p>
-                    <p>Belágua - Maranhão</p>
+                    <p>Visite nossa loja pessoalmente</p>
+                    <p>
+                        <strong>Rua Nova, nº 4 - Centro</strong><br>
+                        Belágua - Maranhão, Brasil
+                    </p>
+                    <p style="font-size: 0.85rem; color: #999; margin-top: 1rem;">
+                        Aberto segunda a sexta, 9h às 18h
+                    </p>
                 </div>
             </div>
 
-            <div class="contact-form">
-                <h2 style="color: #d4477d; margin-bottom: 1.5rem; text-align: center;">Deixe uma Mensagem</h2>
-                <form onsubmit="enviarMensagem(event)">
-                    <div class="form-group">
-                        <label for="nome">Nome *</label>
-                        <input type="text" id="nome" name="nome" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">E‑mail *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="telefone">Telefone</label>
-                        <input type="tel" id="telefone" name="telefone" placeholder="(98) 99123-7578">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="assunto">Assunto *</label>
-                        <input type="text" id="assunto" name="assunto" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="mensagem">Mensagem *</label>
-                        <textarea id="mensagem" name="mensagem" required></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn">
-                        <i class="fas fa-paper-plane"></i> Enviar Mensagem
-                    </button>
-                </form>
+            <!-- INFORMAÇÕES ADICIONAIS -->
+            <div class="info-section">
+                <h3><i class="fas fa-info-circle"></i> Informações Importantes</h3>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <p><strong>Horário de Atendimento:</strong> Segunda a Sexta, 9h às 18h</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-truck"></i>
+                    <p><strong>Entrega:</strong> Realizamos envios para toda a região</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <p><strong>Devoluções:</strong> Até 7 dias após a compra</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-lock"></i>
+                    <p><strong>Segurança:</strong> Compra 100% segura e com garantia</p>
+                </div>
             </div>
 
-            <div style="margin-top: 3rem; padding: 2rem; background: #f8d7e8; border-radius: 10px; text-align: center;">
-                <h3 style="color: #d4477d; margin-bottom: 1rem;">Horário de Atendimento</h3>
-                <p style="margin-bottom: 0.5rem;"><strong>Segunda a Sexta:</strong> 09:00 - 18:00</p>
-                <p style="margin-bottom: 0.5rem;"><strong>Sábado:</strong> 10:00 - 16:00</p>
-                <p><strong>Domingo:</strong> Fechado</p>
+            <!-- FORMULÁRIO DE CONTATO -->
+            <div class="form-section">
+                <h2><i class="fas fa-envelope-open"></i> Deixe uma Mensagem</h2>
+
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i> Mensagem enviada com sucesso! Retornaremos em breve.
+                </div>
+
+                <div class="error-message" id="errorMessage">
+                    <i class="fas fa-exclamation-circle"></i> <span id="errorText"></span>
+                </div>
+
+                <form id="contactForm" onsubmit="sendMessage(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo *</label>
+                            <input type="text" id="nome" name="nome" required placeholder="Seu nome">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" name="telefone" placeholder="(98) 9999-9999">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="assunto">Assunto *</label>
+                            <input type="text" id="assunto" name="assunto" required placeholder="Qual é o assunto?">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mensagem">Mensagem *</label>
+                            <textarea id="mensagem" name="mensagem" required placeholder="Escreva sua mensagem aqui..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-send" id="sendBtn">
+                            <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </main>
@@ -108,12 +372,12 @@
     <footer>
         <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>
         <p>Rua Nova, nº 4 - Centro</p>
-        <p><a href="https://wa.me/5598991237578" target="_blank">WhatsApp: (98) 99123-7578</a></p>
+        <p><a href="https://wa.me/5598984067365" target="_blank">WhatsApp: (98) 98406-7365</a></p>
     </footer>
 
     <script th:src="@{/js/app.js}"></script>
     <script>
-        function enviarMensagem(event) {
+        async function sendMessage(event) {
             event.preventDefault();
 
             const nome = document.getElementById('nome').value;
@@ -122,34 +386,51 @@
             const assunto = document.getElementById('assunto').value;
             const mensagem = document.getElementById('mensagem').value;
 
-            // Enviar dados para o backend
-            fetch('/api/contato', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    nome: nome,
-                    email: email,
-                    telefone: telefone,
-                    assunto: assunto,
-                    mensagem: mensagem
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.sucesso) {
-                    alert('✅ Mensagem enviada com sucesso!\n\nEu entraremos em contato em breve para o email:\n' + email);
-                    document.querySelector('form').reset();
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="fas fa-spinner"></i> Enviando...';
+
+            try {
+                const response = await fetch('/api/contato', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nome: nome,
+                        email: email,
+                        telefone: telefone,
+                        assunto: assunto,
+                        mensagem: mensagem
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.sucesso) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('errorMessage').style.display = 'none';
+                    document.getElementById('contactForm').reset();
+
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 5000);
                 } else {
-                    alert('❌ Erro ao enviar mensagem. Tente novamente!');
+                    throw new Error(result.mensagem || 'Erro ao enviar mensagem');
                 }
-            })
-            .catch(error => {
+            } catch (error) {
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorText').textContent = error.message;
                 console.error('Erro:', error);
-                alert('❌ Erro na conexão. Tente novamente!');
-            });
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Mensagem';
+            }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            cartManager.updateCartCount();
+        });
     </script>
 </body>
 </html>

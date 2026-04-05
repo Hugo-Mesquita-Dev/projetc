@@ -44,6 +44,9 @@ public class CompraService {
         compra.setCliente(compraDTO.getCliente());
         compra.setEmail(compraDTO.getEmail());
         compra.setTelefone(compraDTO.getTelefone());
+        compra.setEndereco(compraDTO.getEndereco());
+        compra.setCidade(compraDTO.getCidade());
+        compra.setCep(compraDTO.getCep());
         compra.setProduto(produto);
         compra.setQuantidade(compraDTO.getQuantidade());
         compra.setValorTotal(produto.getPreco().multiply(new BigDecimal(compraDTO.getQuantidade())));
@@ -131,6 +134,9 @@ public class CompraService {
         dto.setCliente(compra.getCliente());
         dto.setEmail(compra.getEmail());
         dto.setTelefone(compra.getTelefone());
+        dto.setEndereco(compra.getEndereco());
+        dto.setCidade(compra.getCidade());
+        dto.setCep(compra.getCep());
         dto.setProdutoId(compra.getProduto().getId());
         dto.setProdutoNome(compra.getProduto().getNome());
         dto.setQuantidade(compra.getQuantidade());

@@ -13,23 +13,47 @@ Um projeto **Full Stack** completo em **Java Spring Boot** com frontend **Thymel
 - Deletar produtos
 
 ✅ **Gestão de Compras**
-- Realizar novas compras
+- Realizar novas compras com endereço de entrega
 - Listar todas as compras
 - Buscar compras por cliente ou status
 - Cancelar compras (restaura estoque automaticamente)
 - Deletar compras
 - Validação automática de estoque
+- Integração com endereço de entrega do cliente
 
 ### Frontend Web
-✅ **Interface E-commerce**
-- **Homepage** com apresentação da loja
-- **Catálogo de Produtos** com filtro por categorias (Batons, Sombras, Bases, Pincéis)
-- **Carrinho de Compras** com gerenciamento de itens via localStorage
-- **Integração com WhatsApp** - envio automático de pedidos
-- **Sistema de Login/Registro** de clientes
-- **Página de Contato** com formulário e WhatsApp
-- **Página Quem Somos** com informações da loja
-- **Responsivo** e adaptado para mobile
+✅ **Interface E-commerce Completa**
+- **Homepage** com apresentação elegante da loja
+- **Catálogo Dinâmico de Produtos** com:
+  - Filtro por categorias (Bases, Sombras, Batons, Alisadores, Acessórios)
+  - Busca em tempo real
+  - Modal com detalhes do produto
+  - Seletor de quantidade
+- **Carrinho de Compras** com:
+  - Gerenciamento via localStorage (persistente)
+  - Cálculo automático de totais
+  - Campo para endereço de entrega
+  - Atualizar quantidade de itens
+  - Remover produtos
+- **Integração com WhatsApp** com:
+  - Envio automático de pedidos com lista completa
+  - Endereço de entrega incluído na mensagem
+  - Número da loja pré-preenchido
+- **Sistema de Perfil do Cliente** com:
+  - Meus Dados (nome, email, telefone, CPF, data de nascimento)
+  - Endereço de Entrega (salvo para futuras compras)
+  - Preferências (newsletter, SMS, WhatsApp)
+  - Armazenamento via localStorage
+- **Página de Contato** com:
+  - Formulário de mensagem enviado por email
+  - Múltiplas formas de contato (WhatsApp, Email, Telefone)
+  - Informações de localização e horário
+- **Página Quem Somos** com:
+  - História da loja
+  - Valores (Qualidade, Confiança, Comunidade, Inovação, Segurança, Satisfação)
+  - Localização e horário de funcionamento
+  - Informações da equipe
+- **Responsivo** e totalmente otimizado para mobile e desktop
 
 ✅ **Recursos Adicionais**
 - Banco de dados H2 em memória
@@ -38,7 +62,11 @@ Um projeto **Full Stack** completo em **Java Spring Boot** com frontend **Thymel
 - Controle automático de datas (criação e atualização)
 - DTOs para transferência de dados
 - Validação de estoque nas compras
-- Design moderno inspirado em Boca Rosa
+- Design moderno inspirado em layouts premium
+- Suporte a múltiplas categorias de produtos
+- Endereço de entrega persistente no cliente
+- Envio de emails via formulário de contato
+- Segurança com Spring Security (preparado)
 
 ## 🛠️ Tecnologias Utilizadas
 

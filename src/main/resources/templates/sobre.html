@@ -6,41 +6,223 @@
     <title>Quem Somos - Love Makeup BL</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .about-wrapper {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .about-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .about-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .about-section h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-section p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .value-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(212, 71, 125, 0.2);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .value-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .location-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #b8366a 100%);
+            padding: 3rem;
+            border-radius: 10px;
+            color: white;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .location-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .location-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .location-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .location-info i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .team-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .team-section h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .member-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #b8366a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .team-member h3 {
+            color: var(--dark-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .team-member p {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .location-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-top">
-            <a href="/" class="logo"><i class="fas fa-heart"></i> Love Makeup BL</a>
+            <a href="/" class="logo">
+                <i class="fas fa-heart"></i> Love Makeup BL
+            </a>
             <div class="header-actions">
                 <a href="/carrinho" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" style="display: none;">0</span>
                 </a>
-                <a href="/perfil" class="profile-icon"><i class="fas fa-user"></i></a>
+                <a href="/perfil" class="profile-icon">
+                    <i class="fas fa-user"></i>
+                </a>
             </div>
         </div>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/produtos">Produtos</a></li>
-                <li><a href="/sobre">Quem Somos</a></li>
+                <li><a href="/sobre" class="active">Quem Somos</a></li>
                 <li><a href="/contato">Contato</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <div class="about-container">
-            <h1 style="color: #d4477d; text-align: center; margin-bottom: 2rem;">Quem Somos</h1>
+        <div class="about-wrapper">
+            <!-- CABEÇALHO -->
+            <div class="about-header">
+                <h1><i class="fas fa-sparkles"></i> Quem Somos</h1>
+                <p>Conheça a história por trás da Love Makeup BL</p>
+            </div>
 
+            <!-- NOSSA HISTÓRIA -->
             <div class="about-section">
-                <h2><i class="fas fa-heart" style="color: #d4477d; margin-right: 0.5rem;"></i>Nossa História</h2>
+                <h2><i class="fas fa-book"></i> Nossa História</h2>
                 <p>
-                    A Love Makeup BL nasceu do sonho de levar maquiagem de qualidade e acessibilidade para todas as mulheres
-                    de Belágua e região. Com mais de 5 anos de experiência no mercado de beleza, consolidamos nossa marca como
-                    sinônimo de confiança, qualidade e atendimento personalizado.
+                    A <strong>Love Makeup BL</strong> nasceu do sonho de levar maquiagem de qualidade e acessibilidade para todas as mulheres
+                    de Belágua e região. Com dedição e paixão pelo que fazemos, consolidamos nossa marca como sinônimo de confiança,
+                    qualidade e atendimento personalizado.
                 </p>
                 <p>
                     Nossa missão é fazer cada mulher se sentir bonita, confiante e poderosa através de produtos de maquiagem
@@ -48,96 +230,138 @@
                 </p>
             </div>
 
+            <!-- NOSSOS VALORES -->
             <div class="about-section">
-                <h2><i class="fas fa-star" style="color: #d4477d; margin-right: 0.5rem;"></i>Por que Escolher a Gente?</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                    <div style="padding: 1rem; background: var(--secondary-color); border-radius: 8px;">
-                        <h4 style="color: #d4477d; margin-bottom: 0.5rem;">
-                            <i class="fas fa-check-circle"></i> Qualidade Garantida
-                        </h4>
-                        <p>Todos os nossos produtos são selecionados com cuidado e passam por rigoroso controle de qualidade.</p>
+                <h2 style="text-align: center;"><i class="fas fa-heart"></i> Nossos Valores</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Qualidade</h3>
+                        <p>Selecionamos apenas os melhores produtos do mercado para nossas clientes</p>
                     </div>
-                    <div style="padding: 1rem; background: var(--secondary-color); border-radius: 8px;">
-                        <h4 style="color: #d4477d; margin-bottom: 0.5rem;">
-                            <i class="fas fa-check-circle"></i> Preços Acessíveis
-                        </h4>
-                        <p>Acreditamos que beleza deve ser acessível. Por isso oferecemos preços justos para todas.</p>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Confiança</h3>
+                        <p>Relacionamento transparente e honesto com cada uma de nossas clientes</p>
                     </div>
-                    <div style="padding: 1rem; background: var(--secondary-color); border-radius: 8px;">
-                        <h4 style="color: #d4477d; margin-bottom: 0.5rem;">
-                            <i class="fas fa-check-circle"></i> Atendimento Personalizado
-                        </h4>
-                        <p>Nossa equipe está sempre disponível para tirar dúvidas e ajudar na escolha certa.</p>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Comunidade</h3>
+                        <p>Valorizamos cada cliente como parte da nossa família</p>
                     </div>
-                    <div style="padding: 1rem; background: var(--secondary-color); border-radius: 8px;">
-                        <h4 style="color: #d4477d; margin-bottom: 0.5rem;">
-                            <i class="fas fa-check-circle"></i> Entrega Rápida
-                        </h4>
-                        <p>Fazemos entrega rápida para toda a região. Receba suas compras em poucos dias!</p>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Inovação</h3>
+                        <p>Sempre atualizados com as últimas tendências e novidades</p>
                     </div>
-                    <div style="padding: 1rem; background: var(--secondary-color); border-radius: 8px;">
-                        <h4 style="color: #d4477d; margin-bottom: 0.5rem;">
-                            <i class="fas fa-check-circle"></i> Variedade de Marcas
-                        </h4>
-                        <p>Trabalhamos com as melhores marcas do mercado para oferecer variedade de opções.</p>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Segurança</h3>
+                        <p>Proteção total em cada compra e privacidade garantida</p>
                     </div>
-                    <div style="padding: 1rem; background: var(--secondary-color); border-radius: 8px;">
-                        <h4 style="color: #d4477d; margin-bottom: 0.5rem;">
-                            <i class="fas fa-check-circle"></i> Suporte 24/7
-                        </h4>
-                        <p>Dúvidas sobre produtos? Entra em contato conosco via WhatsApp a qualquer hora.</p>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <h3>Satisfação</h3>
+                        <p>Seu sorriso é nosso maior prêmio</p>
                     </div>
                 </div>
             </div>
 
+            <!-- LOCALIZAÇÃO -->
+            <div class="location-section">
+                <h2><i class="fas fa-map-marker-alt"></i> Visite-nos</h2>
+                <p>Estamos localizados no coração de Belágua, prontos para atendê-la</p>
+                <div class="location-info">
+                    <i class="fas fa-building"></i>
+                    <div style="display: inline-block; text-align: left;">
+                        <p><strong>Rua Nova, nº 4 - Centro</strong><p>
+                        <p><strong>Belágua - Maranhão, Brasil</strong></p>
+                        <p style="margin-top: 1rem;"><strong>Horário de Funcionamento:</strong><br>
+                        Segunda a Sexta: 9h às 18h<br>
+                        Sábado: 9h às 13h<br>
+                        Domingo: Fechado</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOSSA EQUIPE -->
+            <div class="team-section">
+                <h2><i class="fas fa-users"></i> Nossa Equipe</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <h3>Proprietária</h3>
+                        <p>Responsável pela qualidade dos produtos</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3>Gerente</h3>
+                        <p>Gestor da operação e atendimento</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>Suporte</h3>
+                        <p>Aqui para ajudar você sempre</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POR QUE ESCOLHER A GENTE -->
             <div class="about-section">
-                <h2><i class="fas fa-users" style="color: #d4477d; margin-right: 0.5rem;"></i>Nossa Equipe</h2>
-                <p>
-                    Somos um time de profissionais apaixonadas por maquiagem e beleza. Cada membro da nossa equipe
-                    tem expertise em diferentes áreas da beleza, garantindo que você receba as melhores orientações.
-                </p>
-                <p>
-                    Nos comprometemos a estar sempre atualizadas sobre as últimas tendências, produtos e técnicas
-                    do mundo da maquiagem para melhor orientar nossas clientes.
-                </p>
-            </div>
-
-            <div class="location-info">
-                <h2 style="color: #d4477d; margin-bottom: 1rem;">
-                    <i class="fas fa-map-marker-alt"></i> Nossa Localização
-                </h2>
-                <p>
-                    <strong>Love Makeup BL</strong><br>
-                    Rua Nova, nº 4 - Centro<br>
-                    Belágua - Maranhão<br>
-                </p>
-                <p style="margin-top: 1rem;">
-                    <a href="https://wa.me/5598991237578" target="_blank" class="cta-button" style="display: inline-block;">
-                        <i class="fab fa-whatsapp"></i> Envie uma Mensagem
-                    </a>
-                </p>
-            </div>
-
-            <div class="about-section" style="background: linear-gradient(135deg, var(--primary-color) 0%, #e94e9f 100%); color: white;">
-                <h2 style="color: white; border-bottom: 2px solid white; padding-bottom: 1rem;">
-                    <i class="fas fa-heart"></i> Valores que nos Guiam
-                </h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
-                    <div>
-                        <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-gem"></i> Qualidade</h4>
-                        <p>Oferecemos sempre o melhor em produtos e serviços</p>
+                <h2 style="text-align: center;"><i class="fas fa-thumbs-up"></i> Por Que Escolher A Gente</h2>
+                <div style="display: grid; gap: 1rem; margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 1.5rem; flex-shrink: 0;"></i>
+                        <div>
+                            <strong style="color: var(--dark-color);">Variedade de Produtos</strong>
+                            <p style="margin-top: 0.25rem;">Amplo catálogo com todas as categorias de maquiagem</p>
+                        </div>
                     </div>
-                    <div>
-                        <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-handshake"></i> Confiança</h4>
-                        <p>Transparência e honestidade em cada interação</p>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 1.5rem; flex-shrink: 0;"></i>
+                        <div>
+                            <strong style="color: var(--dark-color);">Preços Competitivos</strong>
+                            <p style="margin-top: 0.25rem;">As melhores ofertas sem comprometer a qualidade</p>
+                        </div>
                     </div>
-                    <div>
-                        <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-smile"></i> Satisfação</h4>
-                        <p>Seu sorriso é nossa maior recompensa</p>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 1.5rem; flex-shrink: 0;"></i>
+                        <div>
+                            <strong style="color: var(--dark-color);">Atendimento Personalizado</strong>
+                            <p style="margin-top: 0.25rem;">Equipe preparada para ajudar você encontrar o melhor produto</p>
+                        </div>
                     </div>
-                    <div>
-                        <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-heart"></i> Paixão</h4>
-                        <p>Amamos o que fazemos e isso se reflete em tudo</p>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 1.5rem; flex-shrink: 0;"></i>
+                        <div>
+                            <strong style="color: var(--dark-color);">Entrega Rápida</strong>
+                            <p style="margin-top: 0.25rem;">Envios para toda a região com rastreamento</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 1.5rem; flex-shrink: 0;"></i>
+                        <div>
+                            <strong style="color: var(--dark-color);">Segurança Garantida</strong>
+                            <p style="margin-top: 0.25rem;">Compras 100% seguras com criptografia e proteção de dados</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,10 +371,14 @@
     <footer>
         <p>&copy; 2026 Love Makeup BL - Belágua, Maranhão</p>
         <p>Rua Nova, nº 4 - Centro</p>
-        <p><a href="https://wa.me/5598991237578" target="_blank">WhatsApp: (98) 99123-7578</a></p>
+        <p><a href="https://wa.me/5598984067365" target="_blank">WhatsApp: (98) 98406-7365</a></p>
     </footer>
 
     <script th:src="@{/js/app.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            cartManager.updateCartCount();
+        });
+    </script>
 </body>
 </html>
-

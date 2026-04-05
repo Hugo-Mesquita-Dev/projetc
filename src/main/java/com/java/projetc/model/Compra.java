@@ -26,7 +26,14 @@ public class Compra {
     @Column(nullable = false)
     private String telefone;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @Column(name = "endereco")
+    private String endereco;
+
+    @Column(name = "cidade")
+    private String cidade;
+
+    @Column(name = "cep")
+    private String cep;
     @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
 
@@ -67,7 +74,17 @@ public class Compra {
         return telefone;
     }
 
-    public Produto getProduto() {
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public String getCep() {
+        return cep;
+    }
         return produto;
     }
 
@@ -104,7 +121,17 @@ public class Compra {
         this.telefone = telefone;
     }
 
-    public void setProduto(Produto produto) {
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
         this.produto = produto;
     }
 
