@@ -34,6 +34,8 @@ public class Compra {
 
     @Column(name = "cep")
     private String cep;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
 
@@ -85,6 +87,8 @@ public class Compra {
     public String getCep() {
         return cep;
     }
+
+    public Produto getProduto() {
         return produto;
     }
 
@@ -132,6 +136,8 @@ public class Compra {
     public void setCep(String cep) {
         this.cep = cep;
     }
+
+    public void setProduto(Produto produto) {
         this.produto = produto;
     }
 
